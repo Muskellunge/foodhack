@@ -1,0 +1,54 @@
+% RAM: 800E12D0 (render_player_model)
+% Skips drawing the player if disguised.
+@Hook 7A780 {
+	JAL $is_disguised
+	NOP
+	BNE V0, R0, .in_disguise
+	NOP
+		JAL   ~Func:queue_render_task
+		DADDU	A0, S1, R0
+	.in_disguise
+	J   800E12D8
+	NOP
+}
+
+% RAM: 800E5DA4 (set_action_state)
+% Disable certain actions.
+@Hook 07F254 {
+	PUSH RA, A0
+		JAL $disguise_is_action_state_allowed
+		NOP
+	POP RA, A0
+	BNE V0, R0, .allowed
+	NOP
+		JR RA
+		NOP
+	.allowed
+	ADDIU SP, SP, -20
+	J     800E5DAC
+	SW    S0, 10 (SP)
+}
+
+/%
+% RAM: 802CA304 (goto_map)
+% Exit disguise.
+@Hook 0EECB4 {
+	PUSH RA, A0, A1
+		JAL $exit_disguise
+		NOP
+	POP RA, A0, A1
+	ADDIU SP, SP, -30
+	J     802CA30C
+	SW    S2, 20 (SP)
+}
+%/
+
+%hook map loading to undisguise mario when the screen is entirely black
+@Hook:Global 80036208 {
+	JAL $exit_disguise %this function checks if the disguise bool is active
+	NOP
+
+	LUI v1, 800A
+	J 80036210
+	ADDIU v1, v1, A650
+}

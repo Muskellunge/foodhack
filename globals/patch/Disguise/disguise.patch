@@ -1,0 +1,173 @@
+#export:Data $_disguise { 0 }
+#export:Data $_disguiseAnimList { 0 }
+#new:Function $is_disguised {
+	LAW       V0, $_disguise
+	JR        RA
+	SLTU      V0, R0, V0
+}
+#export $is_disguised
+#new:Function $update_disguise_npc {
+	ADDIU     SP, SP, -24`
+	SW        RA, 10 (SP)
+	JAL       $is_disguised
+	NOP
+	ANDI      V0, V0, FF
+	BEQ       V0, R0, .L3
+	NOP
+	LIA       V1, 8010F04C
+	LAW       V0, $_disguise
+	LWC1      F0, 0 (V1)
+	LAW       A0, $_disguiseAnimList
+	LAW       A1, $_disguise
+	SWC1      F0, C (V0)
+	LW        A2, -5C (V1)
+	LW        A3, -58 (V1)
+	LW        T0, -54 (V1)
+	SW        A2, 38 (V0)
+	SW        A3, 3C (V0)
+	SW        T0, 40 (V0)
+	LW        V0, 0 (A0)
+	SW        V0, 28 (A1)
+	LHU       V1, 36 (V1)
+	ORI       V0, R0, 5
+	BEQ       V1, V0, .L6
+	SLTI      V0, V1, 6`
+	BEQ       V0, R0, .L11
+	ORI       V0, R0, 4
+	BEQ       V1, V0, .L5
+	NOP
+	BEQ       R0, R0, .L3
+	NOP
+	.L11
+	ORI       V0, R0, 7
+	BEQ       V1, V0, .L7
+	ORI       V0, R0, 8
+	BEQ       V1, V0, .L8
+	NOP
+	BEQ       R0, R0, .L3
+	NOP
+	.L5
+	LW        V0, 4 (A0)
+	BEQ       R0, R0, .L3
+	SW        V0, 28 (A1)
+	.L6
+	LW        V0, 8 (A0)
+	BEQ       R0, R0, .L3
+	SW        V0, 28 (A1)
+	.L7
+	LW        V0, 10 (A0)
+	BEQ       R0, R0, .L3
+	SW        V0, 28 (A1)
+	.L8
+	LW        V0, 14 (A0)
+	SW        V0, 28 (A1)
+	.L3
+	LW        RA, 10 (SP)
+	JR        RA
+	ADDIU     SP, SP, 24`
+}
+#export $update_disguise_npc
+#new:Function $exit_disguise {
+	ADDIU     SP, SP, -24`
+	SW        RA, 10 (SP)
+	JAL       $is_disguised
+	NOP
+	ANDI      V0, V0, FF
+	BEQ       V0, R0, .L14
+	NOP
+	LAW       A0, $_disguise
+	JAL       ~Func:free_npc
+	NOP
+	SAW       R0, $_disguise
+	.L14
+	LW        RA, 10 (SP)
+	JR        RA
+	ADDIU     SP, SP, 24`
+}
+#export $exit_disguise
+#new:Function $DisguiseAs {
+	ADDIU     SP, SP, -40`
+	SW        S0, 20 (SP)
+	COPY      S0, A0
+	SW        RA, 24 (SP)
+	LW        V0, C (S0)
+	LW        A1, 0 (V0)
+	JAL       ~Func:get_variable
+	NOP
+	COPY      A0, S0
+	LIO       AT, -7FD32540
+	JALR      AT, RA
+	COPY      A1, V0
+	COPY      S0, V0
+	LBU       A0, A4 (S0)
+	JAL       ~Func:get_enemy_safe
+	NOP
+	LW        V0, CC (V0)
+	SAW       V0, $_disguiseAnimList
+	JAL       $exit_disguise
+	NOP
+	LAW       A1, $_disguiseAnimList
+	ORI       V0, R0, 148
+	SW        V0, 10 (SP)
+	LW        V0, 0 (A1)
+	ADDIU     A0, SP, 16`
+	SW        R0, 18 (SP)
+	SW        R0, 1C (SP)
+	LIO       AT, -7FFC779C
+	JALR      AT, RA
+	SW        V0, 14 (SP)
+	JAL       ~Func:get_npc_by_index
+	COPY      A0, V0
+	COPY      A0, V0
+	SAW       A0, $_disguise
+	JAL       ~Func:disable_npc_shadow
+	NOP
+	LHU       V0, A8 (S0)
+	LIA       V1, 8010F078
+	SH        V0, 0 (V1)
+	LHU       V0, A6 (S0)
+	JAL       $update_disguise_npc
+	SH        V0, 2 (V1)
+	LW        RA, 24 (SP)
+	LW        S0, 20 (SP)
+	ORI       V0, R0, 2
+	JR        RA
+	ADDIU     SP, SP, 40`
+}
+#export $DisguiseAs
+#new:Function $disguise_is_action_state_allowed {
+	ADDIU     SP, SP, -24`
+	SW        S0, 10 (SP)
+	SW        RA, 14 (SP)
+	JAL       $is_disguised
+	COPY      S0, A0
+	ANDI      V0, V0, FF
+	BEQ       V0, R0, .L17
+	ORI       V0, R0, 12
+	BEQ       S0, V0, .L18
+	COPY      V1, R0
+	XORI      V0, S0, 1A
+	SLTU      V1, V1, V0
+	.L18
+	BEQ       R0, R0, .L19
+	COPY      V0, V1
+	.L17
+	ORI       V0, R0, 1
+	.L19
+	LW        RA, 14 (SP)
+	LW        S0, 10 (SP)
+	JR        RA
+	ADDIU     SP, SP, 24`
+}
+#export $disguise_is_action_state_allowed
+#new:Function $ExitDisguise {
+	ADDIU     SP, SP, -24`
+	SW        RA, 10 (SP)
+	JAL       $exit_disguise
+	NOP
+	LW        RA, 10 (SP)
+	ORI       V0, R0, 2
+	JR        RA
+	ADDIU     SP, SP, 24`
+}
+#export $ExitDisguise
