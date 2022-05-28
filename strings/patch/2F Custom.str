@@ -1,0 +1,80 @@
+#string:2F:000
+{
+[Style Inspect]
+Welcome to this jam mod, made[BR]
+by Wrymouth.[Wait][End]
+}
+
+#string:2F:001
+{
+[Style Inspect]
+Gourmet Guy stands in a grass[BR]
+field.[BR]
+[Wait][Next]
+Use the joystick to move him[BR]
+around![Wait][End]
+}
+
+#string:2F:002
+{
+[Style Right]
+Time for my daily five meter walk![Wait][End]
+}
+
+#string:2F:003
+{
+[Style Right]
+What's that?[Wait][End]
+}
+
+#string:2F:004
+{
+[Style Inspect]
+Gourmet Guy comes across two[BR]
+tables. Each has an item of[BR]
+food on it.[Wait][End]
+}
+
+#string:2F:005
+{
+[Style Right]
+Welcome! Would you like to play[BR]
+a game?[Wait][End]
+}
+
+#string:2F:006
+{
+[Style Right]
+The rules are simple.[BR]
+Simply tell me which of these[BR]
+two meals is healthier.[BR]
+[Wait][Next]
+Just walk up to the correct[BR]
+food item, and press [A] to[BR]
+lock in your answer.[Wait][End]
+}
+
+#string:2F:007
+{
+[Style Inspect]
+Choose the [Color:20][Var 0][Color:0A]?[Yield][End]
+}
+
+#string:2F:008
+{
+[Style Choice pos=120,90 size=75,46]
+[StartChoice]
+[Option 0]Yes[BR]
+[Option 1]No[BR]
+[EndChoice cancel=1][End]
+}
+
+#string:2F:009
+{
+    [Style Right]Correct![Wait][End]
+}
+
+#string:2F:00A
+{
+    [Style Right]Incorrect![Wait][End]
+}

@@ -1,9 +1,25 @@
+#define .NpcID:GourmetGuy 0
+#define .NpcID:WeirdToad 1
 #new:NpcGroup $NpcGroup_GourmetGuy {
 	00000000 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
 	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
 	~NoDrops
 	~Movement:GourmetGuy
 	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+#new:NpcGroup $NpcGroup_WeirdToad {
+	00000001 $NpcSettings_WeirdToad ~Vec3f:WeirdToad
+	00400D0D $Init_WeirdToad 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:WeirdToad
+	~AnimationTable:WeirdToad
 	00000001 00000000 00000000 00000000
 }
 
@@ -14,8 +30,21 @@
 	End
 }
 
+#new:Script $Init_WeirdToad {
+    Call BindNpcIdle ( .Npc:Self $Script_ToadCutscene )
+    Return
+    End
+}
+
+#new:NpcSettings $NpcSettings_WeirdToad {
+	00000000 001E0018 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
 #new:NpcGroupList $NpcGroupList_GourmetGuy {
     00000001 $NpcGroup_GourmetGuy 00000000
+    00000001 $NpcGroup_WeirdToad 00000000
     00000000 00000000 00000000
 }
 
@@ -29,8 +58,93 @@
     Call  MakeNpcs ( .False $NpcGroupList_GourmetGuy )
 	Exec  $Script_SetupMusic
 	Exec  $Script_EnterMap
+    Exec  $Script_MakeItemEntities
+    Exec  $Script_MakeBinds
+    If *GB_StoryProgress < 90
+        Set *GB_StoryProgress 90
+        Exec $Script_OpeningCutscene
+    EndIf 
 	Return
 	End
+}
+
+#new:Script $Script_MakeBinds {
+    Bind $Script_PickedShroomCake .Trigger:WallPressA ~Collider:ItemOneWall 1 0
+    Bind $Script_PickedPotatoSalad .Trigger:WallPressA ~Collider:ItemTwoWall 1 0
+    Return
+    End
+}
+
+#new:Script $Script_PickedShroomCake {
+    Set *Var[1] 0026003C
+    Exec $Script_FoodChoice
+    Return
+    End
+}
+
+#new:Script $Script_PickedPotatoSalad {
+    Set *Var[1] 00260054
+    Exec $Script_FoodChoice
+    Return
+    End
+}
+
+#new:Script $Script_FoodChoice {
+    Call DisablePlayerInput ( .True )
+    Call SetMessageString ( *Var[1] 0 )
+    Call ShowMessageAtScreenPos ( 002F0007 160` 40` )
+    Call ShowChoice ( 002F0008 )
+    Call CloseMessage ()
+    If *Var[0] == 00000000
+        If *Var[1] == 00260054
+            Call SpeakToPlayer ( 1 00830404 00830401 00000000 002F0009 )
+            Exec $Script_CorrectAnswer
+        Else
+            Call SpeakToPlayer ( 1 00830404 00830401 00000000 002F000A )
+            Exec $Script_IncorrectAnswer
+        EndIf
+    EndIf 
+    Call DisablePlayerInput ( .False )
+    Return
+    End
+}
+
+#new:Script $Script_CorrectAnswer
+{
+    Call EnableModel ( ~Model:ItemTwoFloorModel .False )
+    Call  ModifyColliderFlags ( 00000000 ~Collider:ItemTwoFloor 7FFFFE00 )
+    Call GotoMap ( "pri_00" 0 )
+    Return
+    End
+}
+
+#new:Script $Script_IncorrectAnswer
+{
+    
+    Return
+    End
+}
+
+#new:Script $Script_OpeningCutscene {
+    Call DisablePlayerInput ( .True )
+    Call ShowMessageAtScreenPos ( 002F0001 160` 40` )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
+}
+
+#new:Script $Script_ToadCutscene {
+    Call AwaitPlayerApproach ( -671` -440` 300` )
+    Call DisablePlayerInput ( .True )
+    Call FadeOutMusic ( 0 500` )
+    Call ShowMessageAtScreenPos ( 002F0004 160` 40` )
+    Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0005 )
+    Call SetMusicTrack ( 0 .Song:KammyKoopaTheme 0 8 )
+    Call PlayerMoveTo ( -566` -440` 90` )
+    Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0006 )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
 }
 
 #new:Script $Script_DisguiseAsGourmet {
@@ -39,13 +153,12 @@
 	End
 }
 
-#new:NpcSettings $NpcSettings_GourmetGuy {
-	00000000 00200016 00000000 00000000
-    00000000 00000000 00000000 00000000
-	00000000 00000000 00630000
+#new:Script $Script_MakeItemEntities {
+    Call MakeItemEntity ( .Item:ShroomCake ~Vec3d:ItemOne .ItemSpawnMode:Fixed_NeverVanish *ItemOnePickedUp )
+    Call MakeItemEntity ( .Item:PotatoSalad ~Vec3d:ItemTwo .ItemSpawnMode:Fixed_NeverVanish *ItemTwoPickedUp )
+    Return
+    End
 }
-
-% Auto-generated script for fod_01
 
 #new:Header $Header
 {
@@ -73,8 +186,7 @@
 
 #new:Script $Script_SetupMusic
 {
-	Call  FadeOutMusic  ( 00000000 500` ) % usually between 500-1000
-	Call  ClearAmbientSounds ( 250` )
+    Call SetMusicTrack ( 0 .Song:SunTowerSunny 0 8 )
 	Return
 	End
 }

@@ -1,0 +1,5 @@
+@ $Script_8024FD70 {
+    Call GotoMap ( "fod_01" 0 )
+    Return
+    End
+}

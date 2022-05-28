@@ -1,22 +1,3 @@
-#new:NpcGroup $NpcGroup_GourmetGuy {
-	00000000 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
-	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
-	~NoDrops
-	~Movement:GourmetGuy
-	~AnimationTable:GourmetGuy
-	00000001 00000000 00000000 00000000
-}
-
-#new:Script $Init_GourmetGuy {
-    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
-	Return
-	End
-}
-
-#new:NpcGroupList $NpcGroupList_GourmetGuy {
-    00000001 $NpcGroup_GourmetGuy 00000000
-    00000000 00000000 00000000
-}
 
 #new:Script_Main $Script_Main
 {
@@ -25,31 +6,25 @@
 	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
 	Call  SetCamEnabled      ( .Cam:Default .True )
 	Call  SetCamLeadPlayer   ( .Cam:Default .False )
-    Call  MakeNpcs ( .False $NpcGroupList_GourmetGuy )
 	Exec  $Script_SetupMusic
 	Exec  $Script_EnterMap
+	Exec  $Script_OpeningCredits
 	Return
 	End
 }
 
-#new:Script $Script_DisguiseAsGourmet {
-	Call $DisguiseAs ( .Npc:Self )
+#new:Script $Script_OpeningCredits {
+	Call DisablePlayerInput ( .True )
+	Call ShowMessageAtScreenPos ( 002F0000 160` 40` )
+	Call GotoMap ( "fod_02" 0 )
 	Return
 	End
 }
-
-#new:NpcSettings $NpcSettings_GourmetGuy {
-	00000000 00200016 00000000 00000000
-    00000000 00000000 00000000 00000000
-	00000000 00000000 00630000
-}
-
-% Auto-generated script for fod_01
 
 #new:Header $Header
 {
 	[MainScript] $Script_Main
-	[Background] 80200000
+	[Background] 00000000
 	[EntryList] $EntryList
 	[EntryCount] 1
 }

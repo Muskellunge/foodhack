@@ -1,0 +1,2 @@
+00A = Flag_EVT_0A = ItemOnePickedUp
+00B = Flag_EVT_0B = ItemTwoPickedUp
