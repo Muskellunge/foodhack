@@ -57,7 +57,7 @@ lock in your answer.[Wait][End]
 #string:2F:007
 {
 [Style Inspect]
-Choose the [Color:20][Var 0][Color:0A]?[Yield][End]
+Choose the [Color:20][Var 0][Color:00]?[Yield][End]
 }
 
 #string:2F:008
@@ -71,10 +71,166 @@ Choose the [Color:20][Var 0][Color:0A]?[Yield][End]
 
 #string:2F:009
 {
-    [Style Right]Correct![Wait][End]
+[Style Right]Correct![Wait][End]
 }
 
 #string:2F:00A
 {
-    [Style Right]Incorrect![Wait][End]
+[Style Right]Incorrect![Wait][End]
+}
+
+#string:2F:00B
+{
+[Style Right]Stop![Wait][End]
+}
+
+#string:2F:00C
+{
+[Style Right]Oh, hey there.[BR]
+[Wait][Next]
+Are you perchance interested in[BR]
+my wares?[Yield][End]
+}
+
+#string:2F:00D
+{
+[Style Inspect]Kent C Koopa hands Gourmet Guy[BR]
+a strange looking badge.[Wait][End]
+}
+
+#string:2F:00E
+{
+[Style Right]Another time, maybe...[Wait][End]
+}
+
+#string:2F:00F
+{
+[Style Right]Wow you are slow[Wait][End]
+}
+
+#string:2F:010
+{
+[Style Right]Wow you are fast[Wait][End]
+}
+
+#string:2F:011
+{
+[Style Right]Enjoying that badge?[Wait][End]
+}
+
+#string:2F:101
+{
+[Style Right]Oh come on, not again...[BR]
+[Wait][Next]
+Look, it's not happening, okay?[BR]
+[Pause 10]You know how many people have[BR]
+been coming in here trying to[BR]
+fight me?[BR]
+[Wait][Next]
+Way too many, I tell you.[BR]
+[Pause 10]Just let me get some rest,[BR]
+would you?[Wait][End]
+}
+
+#string:2F:102
+{
+[Style Right]Ha![BR]
+[Pause:0A]What's wrong? Did you forget to[BR]
+bring your Ultra Boots?[BR]
+[Wait][Next]
+Guess you're not taking my[BR]
+Shotgun this time...[Yield][End]
+}
+
+#string:2F:103
+{
+[Style Right]Wh-[BR]
+[Wait][Next]
+How did that even happen???[Wait][End]
+}
+
+#string:2F:104
+{
+[Style Right]I'm not going to fight you.[BR]
+I mean, what can I even do[BR]
+without my shotgun?[Wait][End]
+}
+
+
+#string:2F:200
+{
+[Style Inspect]Gourmet Guy encounters the[BR]
+Guard![Wait][End]
+}
+
+#string:2F:201
+{
+[Style Choice pos=60,60 size=200,80]
+[StartChoice]
+[Option 0]Attack[BR]
+[Option 1]Defend[BR]
+[Option 2]Eat[BR]
+[Option 3][Color:23]Check[Color:00][BR]
+[EndChoice][End]
+}
+
+#string:2F:202
+{
+[Style Inspect]Gourmet Guy performs his signature[BR]
+[Color:20]Body Slam[Color:00] attack![BR]
+[Wait][Next]
+It deals 1 damage.[Wait][End]
+}
+
+#string:2F:203
+{
+[Style Inspect]Gourmet Guy takes a defensive[BR]
+stance![Wait][End]
+}
+
+#string:2F:204
+{
+[Style Inspect]Gourmet Guy eats the [Color:20]Slow Go[Color:00].[Wait][End]
+}
+
+#string:2F:205
+{
+[Style Inspect]Gourmet Guy attempts to eat the[BR]
+Guard, but fails.[Wait][End]
+}
+
+#string:2F:206
+{
+[Style Inspect]Guard.[BR]
+HP: [Var 0]/11. Attack: 1, Defense: 0.[Wait][End]
+}
+
+#string:2F:207
+{
+[Style Inspect]The guard attacks.[Wait][End]
+}
+
+#string:2F:208
+{
+[Style Inspect]...But it doesn't work![Wait][End]
+}
+
+#string:2F:209
+{
+[Style Inspect]He deals 1 damage to Gourmet Guy.[Wait][End]
+}
+
+#string:2F:20A
+{
+[Style Inspect]What do you want to do?[Yield][End]
+}
+
+#string:2F:20B
+{
+[Style Inspect]Gourmet Guy lost the battle![Wait][End]
+}
+
+#string:2F:20C
+{
+[Style Inspect]Gourmet Guy wins the battle![Wait][End]
 }

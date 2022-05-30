@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="fod_02" author="unnamed" background="kmr_bg" textures="kmr_tex">
 	<Editor>
-		<Camera pos="-97.100494,141.973816,-341.092926" pitch="48.399982" yaw="291.439667"/>
-		<Camera pos="-767.225220,65536.000000,-346.662476"/>
+		<Camera pos="228.387421,57.139484,-189.293625" pitch="33.440063" yaw="261.518829"/>
+		<Camera pos="84.008682,65536.000000,-481.660278"/>
 		<Camera pos="65536.000000,-1559.629272,-201.680298"/>
 		<Camera pos="-612.815613,-27.271635,65536.000000"/>
 	</Editor>
@@ -25,7 +25,7 @@
 		</Node>
 	</ModelTree>
 	<ColliderTree>
-		<Node name="Root" id="B">
+		<Node name="Root" id="C">
 			<Node name="MeshCollider" id="0"/>
 			<Node name="FloorCollider" id="1"/>
 			<Node name="MeshCollider" id="2"/>
@@ -37,6 +37,7 @@
 			<Node name="ItemTwoFloor" id="8"/>
 			<Node name="MeshCollider" id="9"/>
 			<Node name="MeshCollider" id="A"/>
+			<Node name="LZtrigger" id="B"/>
 		</Node>
 	</ColliderTree>
 	<ZoneTree>
@@ -47,16 +48,17 @@
 		</Node>
 	</ZoneTree>
 	<MarkerTree>
-		<Node name="Root" id="6">
-			<Node name="Entrances" id="0">
+		<Node name="Root" id="7">
+			<Node name="Entrances" id="1">
 				<Node name="Entry0" id="FFFFFFFF"/>
+				<Node name="Entry1" id="0"/>
 			</Node>
-			<Node name="NPCs" id="3">
-				<Node name="GourmetGuy" id="1"/>
-				<Node name="WeirdToad" id="2"/>
+			<Node name="NPCs" id="4">
+				<Node name="GourmetGuy" id="2"/>
+				<Node name="WeirdToad" id="3"/>
 			</Node>
-			<Node name="ItemOne" id="4"/>
-			<Node name="ItemTwo" id="5"/>
+			<Node name="ItemOne" id="5"/>
+			<Node name="ItemTwo" id="6"/>
 		</Node>
 	</MarkerTree>
 	<LightSets>
@@ -80,23 +82,23 @@
 					<TriangleBatch ver="0">
 						<VertexTable>
 							<Vertex xyz="-695,-200,-533" rgba="0,0,0,255"/>
-							<Vertex xyz="-695,-200,-333" uv="1024,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-695,0,-533" uv="0,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-695,-200,-333" uv="1024,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-695,0,-333" uv="1024,1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-495,-200,-333" uv="2048,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-495,0,-333" uv="2048,1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-495,-200,-533" uv="3072,0" rgba="0,0,0,255"/>
-							<Vertex xyz="-695,-200,-533" uv="4096,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-495,0,-533" uv="3072,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-695,-200,-533" uv="4096,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-695,0,-533" uv="4096,1024" rgba="0,0,0,255"/>
 						</VertexTable>
 						<TriangleList>
 							<Triangle ijk="0,1,2"/>
-							<Triangle ijk="2,1,3"/>
-							<Triangle ijk="1,4,3"/>
-							<Triangle ijk="3,4,5"/>
+							<Triangle ijk="1,3,2"/>
+							<Triangle ijk="2,3,4"/>
+							<Triangle ijk="3,5,4"/>
 							<Triangle ijk="6,7,8"/>
-							<Triangle ijk="8,7,9"/>
+							<Triangle ijk="7,9,8"/>
 						</TriangleList>
 					</TriangleBatch>
 				</DisplayList>
@@ -647,8 +649,26 @@
 	</Models>
 	<Colliders>
 		<Collider ver="0" flags="0">
-			<MapObject name="Root" id="B"/>
+			<MapObject name="Root" id="C"/>
 			<HitObject type="ROOT"/>
+		</Collider>
+		<Collider ver="0" flags="0">
+			<MapObject name="LZtrigger" id="B"/>
+			<HitObject type="HIT"/>
+			<HitMesh ver="0">
+				<TriangleBatch ver="0">
+					<VertexTable>
+						<Vertex xyz="100,0,-666" uv="3552,5344"/>
+						<Vertex xyz="100,0,-222" uv="-3552,5344"/>
+						<Vertex xyz="259,0,-666" uv="3552,7888"/>
+						<Vertex xyz="259,0,-222" uv="-3552,7888"/>
+					</VertexTable>
+					<TriangleList>
+						<Triangle ijk="0,1,2"/>
+						<Triangle ijk="2,1,3"/>
+					</TriangleList>
+				</TriangleBatch>
+			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
 			<MapObject name="MeshCollider" id="A"/>
@@ -928,12 +948,6 @@
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
 					<VertexTable>
-						<Vertex xyz="100,0,-666" uv="3552,5344"/>
-						<Vertex xyz="100,0,-222" uv="-3552,5344"/>
-						<Vertex xyz="259,0,-666" uv="3552,7888"/>
-						<Vertex xyz="259,0,-666" uv="3552,7888"/>
-						<Vertex xyz="100,0,-222" uv="-3552,5344"/>
-						<Vertex xyz="259,0,-222" uv="-3552,7888"/>
 						<Vertex xyz="-574,0,-666" uv="-1040,2032"/>
 						<Vertex xyz="100,0,-222" uv="-18,-16"/>
 						<Vertex xyz="100,0,-666" uv="-1040,-16"/>
@@ -944,8 +958,6 @@
 					<TriangleList>
 						<Triangle ijk="0,1,2"/>
 						<Triangle ijk="3,4,5"/>
-						<Triangle ijk="6,7,8"/>
-						<Triangle ijk="9,10,11"/>
 					</TriangleList>
 				</TriangleBatch>
 			</HitMesh>
@@ -1040,29 +1052,32 @@
 	</Zones>
 	<Markers>
 		<Marker ver="4" type="Root">
-			<MapObject name="Root" id="6"/>
+			<MapObject name="Root" id="7"/>
 		</Marker>
 		<Marker ver="4" type="Position" pos="-635,13,-497" yaw="0.000000">
-			<MapObject name="ItemTwo" id="5"/>
+			<MapObject name="ItemTwo" id="6"/>
 		</Marker>
 		<Marker ver="4" type="Position" pos="-631,13,-384" yaw="0.000000">
-			<MapObject name="ItemOne" id="4"/>
+			<MapObject name="ItemOne" id="5"/>
 		</Marker>
 		<Marker ver="4" type="Group">
-			<MapObject name="NPCs" id="3"/>
+			<MapObject name="NPCs" id="4"/>
 		</Marker>
 		<Marker ver="4" type="NPC" pos="-671,0,-440" yaw="90.000000">
-			<MapObject name="WeirdToad" id="2"/>
+			<MapObject name="WeirdToad" id="3"/>
 			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Sprite sprite="83" palette="4" animations="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</Marker>
 		<Marker ver="4" type="NPC" pos="0,0,0" yaw="0.000000">
-			<MapObject name="GourmetGuy" id="1"/>
+			<MapObject name="GourmetGuy" id="2"/>
 			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Sprite sprite="C1" palette="0" animations="0,2,3,3,B,B,0,0,0,0,0,0,0,0,0,0"/>
 		</Marker>
 		<Marker ver="4" type="Group">
-			<MapObject name="Entrances" id="0"/>
+			<MapObject name="Entrances" id="1"/>
+		</Marker>
+		<Marker ver="4" type="Entry" pos="-597,132,-340" yaw="90.000000">
+			<MapObject name="Entry1" id="0"/>
 		</Marker>
 		<Marker ver="4" type="Position" pos="-5,0,-94" yaw="0.000000">
 			<MapObject name="Entry0" id="FFFFFFFF"/>

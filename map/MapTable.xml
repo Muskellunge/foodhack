@@ -572,6 +572,14 @@
 		<Map name="fod_01" nickname="food"/>
 		<Map name="fod_02" nickname="food_real"/>
 	</Area>
+	<Area name="pri" nickname="prison">
+		<Map name="pri_00" nickname="prison0"/>
+		<Map name="pri_01" nickname="prison2"/>
+	</Area>
+	<Area name="hvn" nickname="heaven">
+		<Map name="hvn_00"/>
+		<Map name="hvn_01" nickname="hospital"/>
+	</Area>
 	<Resource name="mac_tex" compressed="false"/>
 	<Resource name="tik_tex" compressed="false"/>
 	<Resource name="kgr_tex" compressed="false"/>

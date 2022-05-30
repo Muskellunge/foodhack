@@ -24,8 +24,7 @@
 }
 
 #new:Script $Init_GourmetGuy {
-    % Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
-    Call BindNpcInteract ( .Npc:Self $Script_DisguiseAsGourmet )
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
 	Return
 	End
 }
@@ -60,8 +59,9 @@
 	Exec  $Script_EnterMap
     Exec  $Script_MakeItemEntities
     Exec  $Script_MakeBinds
-    If *GB_StoryProgress < 90
-        Set *GB_StoryProgress 90
+    If *StartedGame == 0
+        Set *GB_StoryProgress 91
+        Set *StartedGame 1
         Exec $Script_OpeningCutscene
     EndIf 
 	Return
@@ -120,7 +120,15 @@
 
 #new:Script $Script_IncorrectAnswer
 {
-    
+    Call DisablePlayerInput ( .True )
+    Set *Var[0] 0
+    Loop 25`
+        Add *Var[0] 8`
+        Call TranslateModel ( ~Model:ItemOneFloorModel 0 *Var[0] 0 )
+        Call ParentColliderToModel ( ~Collider:ItemOneFloor ~Model:ItemOneFloorModel )
+        Wait 1`
+    EndLoop
+    Call GotoMap ( "hvn_00" 0 )
     Return
     End
 }
@@ -134,15 +142,18 @@
 }
 
 #new:Script $Script_ToadCutscene {
-    Call AwaitPlayerApproach ( -671` -440` 300` )
-    Call DisablePlayerInput ( .True )
-    Call FadeOutMusic ( 0 500` )
-    Call ShowMessageAtScreenPos ( 002F0004 160` 40` )
-    Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0005 )
-    Call SetMusicTrack ( 0 .Song:KammyKoopaTheme 0 8 )
-    Call PlayerMoveTo ( -566` -440` 90` )
-    Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0006 )
-    Call DisablePlayerInput ( .False )
+    If *TalkedToToad != 1
+        Call AwaitPlayerApproach ( -671` -440` 300` )
+        Call DisablePlayerInput ( .True )
+        Call FadeOutMusic ( 0 500` )
+        Call ShowMessageAtScreenPos ( 002F0004 160` 40` )
+        Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0005 )
+        Call SetMusicTrack ( 0 .Song:KammyKoopaTheme 0 8 )
+        Call PlayerMoveTo ( -566` -440` 90` )
+        Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0006 )
+        Set *TalkedToToad 1
+        Call DisablePlayerInput ( .False )
+    EndIf
     Return
     End
 }
@@ -160,17 +171,24 @@
     End
 }
 
+#new:Script $Script_CreateExitTriggers
+{
+	Return
+	End
+}
+
 #new:Header $Header
 {
 	[MainScript] $Script_Main
 	[Background] 80200000
 	[EntryList] $EntryList
-	[EntryCount] 1
+	[EntryCount] 2
 }
 
 #new:EntryList $EntryList
 {
 	~Vec4f:Entry0
+	~Vec4f:Entry1
 }
 
 #new:Function_Init $Function_Init
@@ -186,7 +204,7 @@
 
 #new:Script $Script_SetupMusic
 {
-    Call SetMusicTrack ( 0 .Song:SunTowerSunny 0 8 )
+    Call SetMusicTrack ( 0 .Song:SunTowerSunny 0 F )
 	Return
 	End
 }
@@ -196,10 +214,3 @@
 	Return
 	End
 }
-
-#new:Script $Script_CreateExitTriggers
-{
-	Return
-	End
-}
-

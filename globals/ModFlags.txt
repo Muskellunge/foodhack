@@ -1,2 +1,7 @@
 00A = Flag_EVT_0A = ItemOnePickedUp
 00B = Flag_EVT_0B = ItemTwoPickedUp
+00C = Flag_EVT_0C = GotBadgeFromKent
+00D = Flag_EVT_0D = TalkedToToad
+00E = Flag_EVT_0E = StartedGame
+00F = Flag_EVT_0F = GourmetDefending
+010 = Flag_EVT_10 = DefeatedGuard

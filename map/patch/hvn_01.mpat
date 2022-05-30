@@ -1,0 +1,210 @@
+% Auto-generated script for hvn_01
+
+#new:Header $Header
+{
+	[MainScript] $Script_Main
+	[Background] 00000000
+	[EntryList] $EntryList
+	[EntryCount] 2
+}
+
+#new:EntryList $EntryList
+{
+	~Vec4f:Entry0
+	~Vec4f:Entry1
+}
+
+#new:Script_Main $Script_Main
+{
+	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
+	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
+	Call  SetCamEnabled      ( .Cam:Default .True
+	Call  SetCamLeadPlayer   ( .Cam:Default .False )
+	Exec  $Script_MakeEntities
+	Exec  $Script_SetupMusic
+	Exec  $Script_EnterMap
+    Call MakeNpcs ( .False $NpcGroupList_HVN01 )
+	Return
+	End
+}
+
+#new:Function_Init $Function_Init
+{
+	PUSH    RA
+	LIA     A0, 800B0CF0
+	LIA     A1, "mac_tex"
+	JAL     800654F0 % sprintf
+	RESERVED
+	CLEAR  V0
+	JPOP   RA
+}
+
+#new:NpcGroupList $NpcGroupList_HVN01
+{
+    00000001 $NpcGroup_WheelchairThamz 00000000
+    00000001 $NpcGroup_SecretToad 00000000
+    00000000 00000000 00000000
+}
+
+#new:NpcGroup $NpcGroup_WheelchairThamz
+{
+00000000 $NpcSettings_WheelchairThamz ~Vec3f:WheelchairThamz
+00002D09 $Script_Init_WheelchairThamz 00000000 00000000 270` 
+~NoItems ~NoHP ~NoFP ~NoCoinBonus
+~Movement:WheelchairThamz
+~AnimationTable:WheelchairThamz
+00000000 00000000 00000000 001A001D
+}
+
+#new:NpcSettings $NpcSettings_WheelchairThamz
+{
+00000000 00400018 00000000 00000000 00000000 00000000 00000000 00000000 
+00000000 00000000 00630010 
+}
+
+#new:Script $Script_Init_WheelchairThamz
+{
+    Call BindNpcIdle ( .Npc:Self $Script_ThamzIdle )
+    Call BindNpcInteract ( .Npc:Self $Script_ThamzInteract )
+    Return
+    End
+}
+
+#new:Script $Script_ThamzIdle
+{
+    Wait 45`
+    Call DisablePlayerInput ( .True )
+    Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0101 )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
+}
+
+#new:Script $Script_ThamzInteract
+{
+    Call DisablePlayerInput ( .True )
+    Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0104 )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
+}
+
+#new:NpcGroup $NpcGroup_SecretToad
+{
+00000001 $NpcSettings_SecretToad ~Vec3f:SecretToad
+00820D01 $Script_Init_SecretToad 00000000 00000000 270` 
+~NoItems ~NoHP ~NoFP ~NoCoinBonus
+~Movement:SecretToad
+~AnimationTable:SecretToad 
+00000000 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_SecretToad
+{
+    00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+    00000000 00000000 00630010
+}
+
+#new:Script $Script_Init_SecretToad
+{
+    Call  EnableNpcShadow   ( 00000001 .False )
+    Return
+    End
+}
+
+#new:Script $Script_MakeEntities
+{
+    Call MakeItemEntity    ( .Item:Artifact ~Vec3d:Shotgun 00000000 00000000 )
+	Bind  $Script_Door_To_HVN00 .Trigger:WallPressA ~Collider:rndoorcol 00000001 00000000
+    Bind $Script_MakeGunFall .Trigger:CeilingTouch ~Collider:ShelfCeiling 1 0
+    Bind $Script_ThamzLaugh .Trigger:FloorPressA ~Collider:FloorBelowShelf 1 0
+	Return
+	End
+}
+
+#new:Script $Script_ThamzLaugh
+{
+    Wait 45`
+    Call DisablePlayerInput ( .True )
+    Call SpeakToPlayer ( 0 00320004 00320001 0 002F0102 )
+    ExecWait $Script_MakeGunFall
+    Call SetNpcAnimation ( 0 00320016 )
+    Wait 90`
+    Call ContinueSpeech ( 0 00320004 00320001 0 002F0103 )
+    Call SetNpcAnimation ( 0 00320001 )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
+
+}
+
+#new:Script $Script_SetupMusic
+{
+    Call SetMusicTrack ( 0 .Song:WhaleTheme 0 F )
+	Return
+	End
+}
+
+#new:Script $Script_EnterMap
+{
+	Call  GetEntryID    ( *Var[0] )
+	Switch  *Var[0]
+		Case  ==  ~Entry:Entry1
+			Set   *Var[2]  ~Model:rndoor
+			Set   *Var[3]  .DoorSwing:In
+			Exec  EnterSingleDoor
+			Exec  $Script_CreateExitTriggers
+		Default
+			Exec  $Script_CreateExitTriggers
+	EndSwitch
+	Return
+	End
+}
+
+#new:Script $Script_MakeGunFall
+{
+If  *GameFlag[012]  != 1
+    Wait  3`
+	Set   *GameFlag[012]  1
+	Call  DisablePlayerInput    ( .True )
+    Call  SetNpcPos ( 00000001 -111` 96` 64` )
+	Thread
+	    Loop  00000011
+		    Call  GetNpcPos ( 00000001 *Var[0] *Var[1] *Var[2] )
+            Call  SetItemPos ( 0 *Var[0] *Var[1] *Var[2]  )
+		    Wait  1`
+	    EndLoop
+        Call SetNpcPos ( 1 -40` -1000` 64` )
+	EndThread
+	Call  SetNpcJumpscale   ( 00000001 *Fixed[2.0] )
+	Call  NpcJump0  ( 00000001 -40` 0` 64` 0000000F )
+    Call  DisablePlayerInput    ( .False )
+EndIf
+Return
+End
+}
+
+#new:Script $Script_Door_To_HVN00
+{
+	SetGroup 0000001B
+	Call  DisablePlayerInput ( .True )
+	Call  UseDoorSounds ( .DoorSounds:Basic )
+	Set   *Var[0]  ~Entry:Entry1
+	Set   *Var[1]  ~Collider:rndoorcol
+	Set   *Var[2]  ~Model:rndoor
+	Set   *Var[3]  .DoorSwing:In
+	Exec  ExitSingleDoor
+	Wait  17`
+	Call  GotoMap   ( "hvn_00" 00000001 )
+	Wait  100`
+	Return
+	End
+}
+
+#new:Script $Script_CreateExitTriggers
+{
+	Return
+	End
+}
+

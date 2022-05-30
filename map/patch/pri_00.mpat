@@ -1,0 +1,331 @@
+% Auto-generated script for pri_00
+
+#new:Header $Header
+{
+	[MainScript] $Script_Main
+	[Background] 00000000
+	[EntryList] $EntryList
+	[EntryCount] 2
+}
+
+#new:EntryList $EntryList
+{
+	~Vec4f:Entry0
+	~Vec4f:Entry1
+}
+
+#new:Script_Main $Script_Main
+{
+	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
+	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
+	Call  SetCamEnabled      ( .Cam:Default .True
+	Call  SetCamLeadPlayer   ( .Cam:Default .False )
+	Call MakeNpcs ( .False $NpcGroupList_Prison )
+	Exec  $Script_SetupMusic
+	Exec  $Script_EnterMap
+	Exec  $Script_MakeBinds
+	Return
+	End
+}
+
+#new:NpcGroupList $NpcGroupList_Prison
+{
+	00000001 $NpcGroup_Guard 00000000
+	00000001 $NpcGroup_GourmetGuy 00000000
+	00000001 $NpcGroup_Kent 00000000
+	00000000 00000000 00000000
+}
+
+#new:Script $Script_MakeBinds
+{
+	Bind $Script_GuardScene .Trigger:FloorAbove ~Collider:GuardTrigger 1 0
+	Bind $Script_DoorToPri01 .Trigger:WallPressA ~Collider:DoorCollider 00000001 00000000
+	Return
+	End
+}
+
+#new:Script $Script_GuardScene
+{
+	If *DefeatedGuard == 0
+		Call DisablePlayerInput ( .True )
+		Call SpeakToPlayer ( 0 008B0004 008B0001 0 002F000B )
+		Call PlayerMoveTo ( -99` 220` 90` )
+		ExecWait $Script_GuardBattle
+		Call DisablePlayerInput ( .False )
+	EndIf
+	Return
+	End
+}
+
+#new:Script $Script_GuardBattle
+{
+	Call SetMusicTrack ( 0 .Song:SpecialBattle 0 F )
+	Set *GuardHealth 11`
+	Set *GourmetHealth 10`
+	Call ShowMessageAtScreenPos ( 002F0200 160` 40` )
+	Label A
+	% your turn
+	Call ShowMessageAtScreenPos ( 002F020A 160` 40` )
+	Call ShowChoice ( 002F0201 )
+	Call CloseMessage ()
+	Switch *Var[0]
+		Case == 0 %attack
+			Call ShowMessageAtScreenPos ( 002F0202 160` 40` )
+			Sub *GuardHealth 1
+		Case == 1 %defend
+			Call ShowMessageAtScreenPos ( 002F0203 160` 40` )
+			Set *GourmetDefending 1
+		Case == 2 %eat
+			Call $api_isSlowGoEquipped (*Var[1])
+			If *Var[1] == 1
+				Call ShowMessageAtScreenPos ( 002F0204 160` 40` )
+				Call $Function_HealGourmet
+				Add *GourmetHealth 5
+				If *GourmetHealth > 10
+					Set *GourmetHealth 10
+				EndIf
+			Else
+				Call ShowMessageAtScreenPos ( 002F0205 160` 40` )
+			EndIf
+		Case == 3 %check
+			Call SetMessageValue ( *GuardHealth 0 )
+			Call ShowMessageAtScreenPos ( 002F0206 160` 40` )
+			Goto A
+	EndSwitch
+	If *GuardHealth > 0
+		% enemy turn
+		Call ShowMessageAtScreenPos ( 002F0207 160` 40` )
+		If *GourmetDefending == 0
+			Call ShowMessageAtScreenPos ( 002F0209 160` 40` )
+			Call $Function_SubtractHP
+			Sub *GourmetHealth 1
+			If *GourmetHealth < 1
+				Call ShowMessageAtScreenPos ( 002F020B 160` 40` )
+				Call GotoMap ( "gv_01" 0 )
+			EndIf
+			Wait 30`
+		Else
+			Call ShowMessageAtScreenPos ( 002F0208 160` 40` )
+			Set *GourmetDefending 0
+		EndIf
+		Goto A
+	EndIf
+	% if you made it here, you win!
+	Call SetMusicTrack ( 0 .Song:BattleEnd 0 F )
+	Call ShowMessageAtScreenPos ( 002F020C 160` 40` )
+	Call SetNpcPos ( 0 -200` -200` 200 )
+	Set *DefeatedGuard 1
+	Call SetMusicTrack ( 0 .Song:PeachSneaking 0 F )
+	Return
+	End
+}
+
+#new:Function $Function_HealGourmet
+{
+	LIO t0, 8010F290
+	LB t1, 0002 (t0) %current HP 
+	LB t2, 0003 (t0) %max HP 
+	ADDIU t3, t1, 5 % increase HP by 5
+	SUB t4, t2, t1
+	BGTZ t4, .hpMoreThanMax
+	NOP
+	SB t3, 0002 (t0) %store HP + 5 in current HP
+	BEQ r0, r0, .finally
+	NOP
+	.hpMoreThanMax
+	SB t2, 0002 (t0) %store max HP in current HP, maxing it out
+	.finally
+	JR RA 
+	ORI v0, r0, 2
+}
+
+#new:Function $Function_SubtractHP
+{
+	LIO t0, 8010F290
+	LB t1, 0002 (t0)
+	ORI t2, r0, 01
+	SUB t3, t1, t2 %rd, rs, rt
+	BLEZ t3, .lessThanZero
+	NOP 
+	SB t3, 0002 (t0)
+	.lessThanZero
+	JR RA 
+	ORI v0, r0, 2
+}
+
+#new:Function_Init $Function_Init
+{
+	PUSH    RA
+	LIA     A0, 800B0CF0
+	LIA     A1, "kmr_tex"
+	JAL     800654F0 % sprintf
+	RESERVED
+	CLEAR  V0
+	JPOP   RA
+}
+
+#new:Script $Script_SetupMusic
+{
+	Call SetMusicTrack ( 0 .Song:PeachSneaking 0 F )
+	Return
+	End
+}
+
+#new:Script $Script_EnterMap
+{
+	Return
+	End
+}
+
+#new:Script $Script_CreateExitTriggers
+{
+	Return
+	End
+}
+
+#new:NpcGroup $NpcGroup_Guard {
+	00000000 $NpcSettings_Guard ~Vec3f:Guard
+	00400D0D $Init_Guard 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:Guard
+	~AnimationTable:Guard
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_Guard {
+	00000000 001E0018 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_Guard {
+    Return
+    End
+}
+
+#new:NpcGroup $NpcGroup_GourmetGuy {
+	00000001 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
+	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:GourmetGuy
+	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_GourmetGuy {
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
+	Return
+	End
+}
+
+#new:Script $Script_DisguiseAsGourmet {
+	Call $DisguiseAs ( .Npc:Self )
+	Return
+	End
+}
+
+#new:NpcGroup $NpcGroup_Kent {
+	00000002 $NpcSettings_Kent ~Vec3f:KentCKoopa
+	00400D0D $Init_Kent 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:KentCKoopa
+	~AnimationTable:KentCKoopa
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_Kent {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_Kent {
+	Call BindNpcInteract ( .Npc:Self $Script_KentCTalk )
+	Return
+	End
+}
+
+#new:Script $Script_KentCTalk
+{
+	Call DisablePlayerInput ( .True )
+	If *GotBadgeFromKent == 1
+		Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F0011 )
+	Else
+		Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F000C )
+		Call ShowChoice ( 002F0008 )
+		Call EndSpeech ( .Npc:Self 00470002 00470001 0 )
+		If *Var[0] == 0
+			Call ShowMessageAtScreenPos ( 002F000D 160` 40` )
+			Call AddBadge ( 0F7 0 )
+			Set *GotBadgeFromKent 1
+		Else
+			Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F000E )
+		EndIf
+	EndIf
+	Call DisablePlayerInput ( .False )
+	Return
+	End
+}
+
+#new:Function $api_isSlowGoEquipped
+{
+	PUSH s0, ra
+	ADDU s0, r0, a0 % temporarily store the script pointer in s0 for later
+	JAL $isBadgeEquipped % stores 1 or 0 in v0
+	ORI a0, r0, 00F7 % the badge to check
+	
+	% call set variable with args
+	ADDU a0, r0, s0 % put the script pointer back in a0
+	
+	LW t0, 000C (s0) % store the pointer to args in s1
+	LW a1, 0000 (t0) % store the first func arg in a1
+
+	ADDU a2, r0, v0 % store new value in a2
+	
+	JAL ~Func:set_variable
+	NOP
+	POP s0, ra
+	JR RA
+	ORI v0, r0, 2
+}
+
+#new:Function $isBadgeEquipped
+{
+    .Init
+    LIO t2, 8010F498
+    ADDIU t3, t2, 78 %end of list
+    .loop
+    LH t1, 0 (t2)
+    BEQL a0, t1, .end
+    ADDIU v0, r0, 1 %return true
+    BNE t2, t3, .loop
+    ADDIU t2, t2, 2
+    ADDIU v0, r0, 0 %return false
+    .end
+    JR RA
+    NOP
+}
+
+#new:Script $Script_DoorToPri01
+{
+	SetGroup 0000001B
+	Call  DisablePlayerInput ( .True )
+	Call  UseDoorSounds ( .DoorSounds:Basic )
+	Set   *Var[0]  ~Entry:Entry1
+	Set   *Var[1]  ~Collider:DoorCollider
+	Set   *Var[2]  ~Model:sk_door
+	Set   *Var[3]  .DoorSwing:Out
+	Exec  ExitSingleDoor
+	Wait  17`
+	Call  GotoMap   ( "pri_01" 00000000 )
+	Wait  100`
+	Return
+	End
+}

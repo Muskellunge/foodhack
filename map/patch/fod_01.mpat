@@ -13,6 +13,7 @@
 	End
 }
 
+
 #new:Script $Script_OpeningCredits {
 	Call DisablePlayerInput ( .True )
 	Call ShowMessageAtScreenPos ( 002F0000 160` 40` )

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="fod_01" author="unnamed" background="kmr_bg" textures="kmr_tex">
 	<Editor>
-		<Camera pos="163.686432,57.388416,18.265411" pitch="17.039984" yaw="267.772095"/>
+		<Camera pos="173.447372,72.720123,-0.188684" pitch="20.873003" yaw="270.115479"/>
 		<Camera pos="-17.676716,65536.000000,26.646069"/>
 		<Camera pos="65536.000000,-50.000000,0.000000"/>
-		<Camera pos="0.000000,-138.511383,65536.000000"/>
+		<Camera pos="0.000000,-194.829681,65536.000000"/>
 	</Editor>
 	<ModelTree>
 		<Node name="Root" id="1">
@@ -35,51 +35,49 @@
 	<Models>
 		<Model ver="2" type="ROOT" lightset="0">
 			<MapObject name="Root" id="1"/>
-			<BoundingBox empty="false" min="-100,-200,-100" max="100,0,100"/>
+			<BoundingBox empty="false" min="-100,0,-100" max="100,200,100"/>
 			<PropertyList>
 			</PropertyList>
 		</Model>
 		<Model ver="2" type="MODEL" lightset="0">
 			<MapObject name="CubeModel" id="0"/>
-			<ShapeMesh ver="3" texture="kmr_block_smalltif">
+			<ShapeMesh ver="3" texture="">
 				<DisplayList>
 					<F3DEX2 cmd="E7000000,0"/>
 					<F3DEX2 cmd="D9FDFFFF,0"/>
 					<F3DEX2 cmd="D9FFFFFF,200400"/>
 					<TriangleBatch ver="0">
 						<VertexTable>
-							<Vertex xyz="-100,-200,-100"/>
-							<Vertex xyz="-100,-200,100" uv="1024,0"/>
-							<Vertex xyz="-100,0,-100" uv="0,1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,0,100" uv="1024,1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,-200,100" uv="2048,0" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,0,100" uv="2048,1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,-200,-100" uv="3072,0" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,0,-100" uv="3072,1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,-200,-100" uv="4096,0"/>
-							<Vertex xyz="-100,0,-100" uv="4096,1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,0,-100" uv="0,-2048" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,0,100" uv="0,-1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,0,-100" uv="1024,-2048" rgba="0,0,0,-1"/>
-							<Vertex xyz="100,0,100" uv="1024,-1024" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,-200,-100" uv="2048,-2048"/>
-							<Vertex xyz="100,-200,-100" uv="3072,-2048" rgba="0,0,0,-1"/>
-							<Vertex xyz="-100,-200,100" uv="2048,-1024"/>
-							<Vertex xyz="100,-200,100" uv="3072,-1024" rgba="0,0,0,-1"/>
+							<Vertex xyz="-100,0,-100" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,200,-100" uv="0,1024" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,0,100" uv="1024,0" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,200,100" uv="1024,1024" rgba="0,255,255,255"/>
+							<Vertex xyz="100,0,100" uv="2048,0" rgba="0,255,255,255"/>
+							<Vertex xyz="100,200,100" uv="2048,1024" rgba="0,255,255,255"/>
+							<Vertex xyz="100,0,-100" uv="3072,0" rgba="0,255,255,255"/>
+							<Vertex xyz="100,200,-100" uv="3072,1024" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,0,-100" uv="4096,0" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,200,-100" uv="4096,1024" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,200,-100" uv="0,-2048" rgba="0,255,255,255"/>
+							<Vertex xyz="100,200,-100" uv="1024,-2048" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,200,100" uv="0,-1024" rgba="0,255,255,255"/>
+							<Vertex xyz="100,200,100" uv="1024,-1024" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,0,-100" uv="2048,-2048" rgba="0,255,255,255"/>
+							<Vertex xyz="-100,0,100" uv="2048,-1024" rgba="0,255,255,255"/>
+							<Vertex xyz="100,0,-100" uv="3072,-2048" rgba="0,255,255,255"/>
+							<Vertex xyz="100,0,100" uv="3072,-1024" rgba="0,255,255,255"/>
 						</VertexTable>
 						<TriangleList>
 							<Triangle ijk="0,1,2"/>
-							<Triangle ijk="2,1,3"/>
-							<Triangle ijk="1,4,3"/>
-							<Triangle ijk="3,4,5"/>
-							<Triangle ijk="4,6,5"/>
-							<Triangle ijk="5,6,7"/>
-							<Triangle ijk="6,8,7"/>
-							<Triangle ijk="7,8,9"/>
+							<Triangle ijk="1,3,2"/>
+							<Triangle ijk="2,3,4"/>
+							<Triangle ijk="3,5,4"/>
+							<Triangle ijk="6,7,8"/>
+							<Triangle ijk="7,9,8"/>
 							<Triangle ijk="10,11,12"/>
-							<Triangle ijk="12,11,13"/>
+							<Triangle ijk="11,13,12"/>
 							<Triangle ijk="14,15,16"/>
-							<Triangle ijk="16,15,17"/>
+							<Triangle ijk="15,17,16"/>
 						</TriangleList>
 					</TriangleBatch>
 				</DisplayList>
@@ -138,7 +136,7 @@
 					</TriangleList>
 				</TriangleBatch>
 			</HitMesh>
-			<Camera type="TYPE_6" flag="false" boomLength="450.000000" boomPitch="16.000000" viewPitch="-6.000000" posA="0,10,50" posB="0,10,-50" posC="10,0,10"/>
+			<Camera type="TYPE_6" flag="false" boomLength="40.000000" boomPitch="16.000000" viewPitch="-6.000000" posA="0,10,50" posB="0,10,-50" posC="10,0,10"/>
 		</Zone>
 	</Zones>
 	<Markers>
@@ -149,7 +147,7 @@
 			<MapObject name="Entrances" id="0"/>
 		</Marker>
 		<Marker ver="4" type="Entry" pos="0,0,0" yaw="0.000000">
-			<MapObject name="Entry0" id="FFFFFFFF"/>
+			<MapObject name="Entry0" id="FFFFFFFF" hidden="true"/>
 		</Marker>
 	</Markers>
 	<ScriptData>
