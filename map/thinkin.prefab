@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prefab author="unnamed" textures="kmr_tex">
+	<MarkerTree>
+		<Node name="Root" id="0">
+			<Node name="Marker" id="FFFFFFFF"/>
+		</Node>
+	</MarkerTree>
+	<Markers>
+		<Marker ver="4" type="Root">
+			<MapObject name="Root" id="0"/>
+		</Marker>
+		<Marker ver="4" type="NPC" pos="258,-1000,194" yaw="0.000000">
+			<MapObject name="Marker" id="FFFFFFFF"/>
+			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Sprite sprite="C1" palette="0" animations="1,2,3,3,B,B,0,0,0,0,0,0,0,0,0,0"/>
+		</Marker>
+	</Markers>
+</Prefab>

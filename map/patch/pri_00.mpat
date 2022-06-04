@@ -16,7 +16,8 @@
 
 #new:Script_Main $Script_Main
 {
-	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Set   *GB_WorldLocation  .Location:PeachCastleGrounds
+	Set *GF_Map_PeachCastleGrounds .True
 	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
 	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
 	Call  SetCamEnabled      ( .Cam:Default .True
@@ -24,7 +25,7 @@
 	Call MakeNpcs ( .False $NpcGroupList_Prison )
 	Exec  $Script_SetupMusic
 	Exec  $Script_EnterMap
-	Exec  $Script_MakeBinds
+	Exec  $Script_MakeEntities
 	Return
 	End
 }
@@ -37,10 +38,12 @@
 	00000000 00000000 00000000
 }
 
-#new:Script $Script_MakeBinds
+#new:Script $Script_MakeEntities
 {
 	Bind $Script_GuardScene .Trigger:FloorAbove ~Collider:GuardTrigger 1 0
 	Bind $Script_DoorToPri01 .Trigger:WallPressA ~Collider:DoorCollider 00000001 00000000
+	Call  MakeEntity    ( .Entity:SavePoint ~Vec4d:SaveBlock 80000000 )
+	Call  MakeEntity    ( .Entity:HealingBlock ~Vec4d:HeartBlock 80000000 )
 	Return
 	End
 }
@@ -62,72 +65,102 @@
 {
 	Call SetMusicTrack ( 0 .Song:SpecialBattle 0 F )
 	Set *GuardHealth 11`
-	Set *GourmetHealth 10`
-	Call ShowMessageAtScreenPos ( 002F0200 160` 40` )
+	Call $Function_GetCurrentHp ( *Var[0] )
+	Set *GourmetHealth *Var[0]
+	Call ShowMessageAtScreenPos ( 002F0200 160` 40` ) % encounter the guard
 	Label A
 	% your turn
-	Call ShowMessageAtScreenPos ( 002F020A 160` 40` )
+	Call ShowMessageAtScreenPos ( 002F020A 160` 40` ) % what do?
 	Call ShowChoice ( 002F0201 )
-	Call CloseMessage ()
 	Switch *Var[0]
 		Case == 0 %attack
-			Call ShowMessageAtScreenPos ( 002F0202 160` 40` )
+			Call SwitchMessage ( 002F0202 ) % body slam
 			Sub *GuardHealth 1
 		Case == 1 %defend
-			Call ShowMessageAtScreenPos ( 002F0203 160` 40` )
+			Call SwitchMessage ( 002F0203 ) % defensive stance
 			Set *GourmetDefending 1
 		Case == 2 %eat
 			Call $api_isSlowGoEquipped (*Var[1])
 			If *Var[1] == 1
-				Call ShowMessageAtScreenPos ( 002F0204 160` 40` )
-				Call $Function_HealGourmet
-				Add *GourmetHealth 5
-				If *GourmetHealth > 10
-					Set *GourmetHealth 10
+				If *AteSlowGo == 0
+					Call SwitchMessage ( 002F0204 ) % eat slow go
+					Call $Function_HealGourmet
+					Add *GourmetHealth 5`
+					If *GourmetHealth > 10`
+						Set *GourmetHealth 10`
+					EndIf
+					Set *AteSlowGo 1
+				Else
+					Call SwitchMessage  ( 002F0205 ) % eat fail
 				EndIf
 			Else
-				Call ShowMessageAtScreenPos ( 002F0205 160` 40` )
+				Call SwitchMessage  ( 002F0205 ) % eat fail
 			EndIf
 		Case == 3 %check
 			Call SetMessageValue ( *GuardHealth 0 )
-			Call ShowMessageAtScreenPos ( 002F0206 160` 40` )
+			Call SwitchMessage  ( 002F0206 ) % check guard
 			Goto A
 	EndSwitch
 	If *GuardHealth > 0
 		% enemy turn
-		Call ShowMessageAtScreenPos ( 002F0207 160` 40` )
+		Call SwitchMessage ( 002F0207 ) % guard attacks
 		If *GourmetDefending == 0
-			Call ShowMessageAtScreenPos ( 002F0209 160` 40` )
+			Call SwitchMessage  ( 002F0209 ) % deal 1 damage
 			Call $Function_SubtractHP
 			Sub *GourmetHealth 1
+			% death
 			If *GourmetHealth < 1
-				Call ShowMessageAtScreenPos ( 002F020B 160` 40` )
+				If *GotBadgeFromKent == 1
+					Call $api_isSlowGoEquipped ( *Var[0] )
+					If *Var[0] == 1
+						Call SwitchMessage ( 002F020E ) % if only the badge couldve saved me
+					Else
+						Call SwitchMessage ( 002F020D) % if only i equipped that badge
+					EndIf
+				Else
+					Call SwitchMessage  ( 002F020B ) % if only someone helped me
+				EndIf
 				Call GotoMap ( "gv_01" 0 )
 			EndIf
 			Wait 30`
 		Else
-			Call ShowMessageAtScreenPos ( 002F0208 160` 40` )
+			Call SwitchMessage ( 002F0208 ) % attack doesn't work
 			Set *GourmetDefending 0
 		EndIf
+		Call CloseMessage ()
 		Goto A
 	EndIf
 	% if you made it here, you win!
-	Call SetMusicTrack ( 0 .Song:BattleEnd 0 F )
-	Call ShowMessageAtScreenPos ( 002F020C 160` 40` )
-	Call SetNpcPos ( 0 -200` -200` 200 )
+	Call SetMusicTrack ( 0 .Song:BattleEnd 0 F ) 
+	Call SwitchMessage  ( 002F020C ) % levelup
+	Call CloseMessage ()
+	Call $Function_HPLevelUp
+	Call SetNpcPos ( 0 -200` -1100` 200 )
 	Set *DefeatedGuard 1
 	Call SetMusicTrack ( 0 .Song:PeachSneaking 0 F )
 	Return
 	End
 }
 
+#new:Function $Function_HPLevelUp
+{
+	LIO t0, 8010F290
+	ORI t1, r0, 000F
+	ORI t2, r0, 0002
+	SB t1, 0002 (t0) %current HP 
+	SB t1, 0003 (t0) %max HP 
+	SB t1, 0004 (t0) %true HP
+	SB t2, 0009 (t0) %level
+	JR RA
+	ORI v0, r0, 2 
+}
 #new:Function $Function_HealGourmet
 {
 	LIO t0, 8010F290
 	LB t1, 0002 (t0) %current HP 
 	LB t2, 0003 (t0) %max HP 
-	ADDIU t3, t1, 5 % increase HP by 5
-	SUB t4, t2, t1
+	ADDIU t3, t1, 5 % increase HP by 5, store in t3
+	SUB t4, t3, t2
 	BGTZ t4, .hpMoreThanMax
 	NOP
 	SB t3, 0002 (t0) %store HP + 5 in current HP
@@ -149,7 +182,11 @@
 	BLEZ t3, .lessThanZero
 	NOP 
 	SB t3, 0002 (t0)
+	BEQ r0, r0, .finally
+	NOP
 	.lessThanZero
+	SB r0, 0002 (t0)
+	.finally
 	JR RA 
 	ORI v0, r0, 2
 }
@@ -200,8 +237,18 @@
 }
 
 #new:Script $Init_Guard {
+	Call BindNpcIdle ( .Npc:Self $Script_MoveGuard )
     Return
     End
+}
+
+#new:Script $Script_MoveGuard
+{
+	If *DefeatedGuard == 1
+		Call SetNpcPos ( 0 -200` -1100` 200 )
+	EndIf
+	Return
+	End
 }
 
 #new:NpcGroup $NpcGroup_GourmetGuy {
@@ -247,7 +294,17 @@
 }
 
 #new:Script $Init_Kent {
+	Call BindNpcIdle ( .Npc:Self $Script_KentCIdle )
 	Call BindNpcInteract ( .Npc:Self $Script_KentCTalk )
+	Return
+	End
+}
+
+#new:Script $Script_KentCIdle
+{
+	If *HelpedKent == 1
+		Call SetNpcPos ( .Npc:Self 313` -1100` -10` )
+	EndIf
 	Return
 	End
 }
@@ -256,7 +313,16 @@
 {
 	Call DisablePlayerInput ( .True )
 	If *GotBadgeFromKent == 1
-		Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F0011 )
+		If *DefeatedGuard == 1
+			ExecWait $Script_KentCLeaving
+		Else
+			Call $api_isSlowGoEquipped ( *Var[1] )
+			If *Var[1] == 1
+				Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F0011 )
+			Else
+				Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F0012 )
+			EndIf
+		EndIf
 	Else
 		Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F000C )
 		Call ShowChoice ( 002F0008 )
@@ -270,6 +336,31 @@
 		EndIf
 	EndIf
 	Call DisablePlayerInput ( .False )
+	Return
+	End
+}
+
+#new:Script $Script_KentCLeaving
+{
+	Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F000F )
+	Call PlayerMoveTo ( 264` -76` 10` )
+	Wait 1`
+	Call SetNpcAnimation ( .Npc:Self 00470003 )
+	Call NpcMoveTo ( .Npc:Self 154` -10` 90` )
+	Call SetNpcAnimation ( .Npc:Self 00470001 )
+	Wait 30`
+	Call SetNpcAnimation ( .Npc:Self 00470003 )
+	Call NpcMoveTo ( .Npc:Self 154` 214` 90` )
+	Kill *Var[A]
+	Call SetNpcAnimation ( .Npc:Self 00470001 )
+	Call SetNpcAnimation ( .Npc:Self 00470005 )
+	Call SetNpcJumpscale ( .Npc:Self *Fixed[0.2] )
+	Call PlaySound ( 0173 )
+	Wait 20`
+	Call PlaySound ( 0174 )
+	Call NpcMoveTo ( .Npc:Self -371` 214` 30` )
+	Call SetNpcPos ( .Npc:Self 0` -1100` 100` )
+	Set *HelpedKent 1
 	Return
 	End
 }
@@ -292,6 +383,24 @@
 	JAL ~Func:set_variable
 	NOP
 	POP s0, ra
+	JR RA
+	ORI v0, r0, 2
+}
+
+#new:Function $Function_GetCurrentHp
+{
+	PUSH RA
+	LIO t0, 8010F290
+	LB t1, 0002 (t0) % load current hp
+	
+	% call set variable with args
+	
+	LW t2, 000C (a0) % store the pointer to args in t2
+	LW a1, 0000 (t2) % store the first func arg in a1
+	ADDU a2, r0, t1 % store new value in a2
+	JAL ~Func:set_variable
+	NOP
+	POP RA
 	JR RA
 	ORI v0, r0, 2
 }

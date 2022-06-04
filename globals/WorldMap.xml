@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <WorldMap>
-    <Location id="01" parent="01" path="1,10;1,8;-9,2;-8,0;-8,0;-7,3;-5,3" posX="116" posY="135" update="60"/>
-    <Location id="19" parent="01" path="-1,-24;1,8;2,7" posX="118" posY="169" update="60"/>
-    <Location id="1B" parent="19" path="-3,-7;-7,-4;-8,-2" posX="143" posY="186" update="97"/>
-    <Location id="02" parent="01" path="" posX="100" posY="146" update="61"/>
+    <Location id="01" parent="01" path="-7,-42;1,-29;0,-20;0,-18;-1,-12;1,-10;-2,-12" posX="260" posY="171" update="60"/>
+    <Location id="19" parent="01" path="-26,31;-37,38;-34,41" posX="250" posY="19" update="60"/>
+    <Location id="1B" parent="19" path="2,19;11,20;14,15" posX="122" posY="158" update="97"/>
+    <Location id="02" parent="01" path="" posX="161" posY="74" update="61"/>
     <Location id="1E" parent="1F" path="" posX="36" posY="163" update="8D"/>
     <Location id="1F" parent="01" path="-8,3;-7,0;-8,-1;-7,-2" posX="74" posY="166" update="95"/>
     <Location id="20" parent="01" path="-9,0;-6,1;-7,0;-8,-1;-1,-8" posX="148" posY="153" update="B5"/>
@@ -16,7 +16,7 @@
     <Location id="0C" parent="01" path="-8,1;-10,2;-8,2;-9,1;-8,1;-10,0;-9,0" posX="187" posY="127" update="D0"/>
     <Location id="0D" parent="0C" path="8,-6" posX="170" posY="140" update="DD"/>
     <Location id="22" parent="0C" path="-7,-4;-7,-5;-7,-4;-7,-5" posX="223" posY="150" update="F2"/>
-    <Location id="0F" parent="22" path="-8,-2;-8,-3;-8,-3;-8,-3" posX="263" posY="164" update="F2"/>
+    <Location id="0F" parent="22" path="-54,31;-8,-3;-8,-3;-8,-3" posX="309" posY="131" update="F2"/>
     <Location id="23" parent="22" path="10,1" posX="203" posY="149" update="F2"/>
     <Location id="10" parent="01" path="6,-6;6,-6;8,-2;7,1" posX="79" posY="147" update="07"/>
     <Location id="24" parent="01" path="11,-2;11,0;11,2;10,3;7,7;3,8;0,9;-4,7;-9,3;-10,2;-9,2;-7,6;-2,9;1,9;0,9;-8,5;-9,2;1,8;9,2;9,2;8,5" posX="66" posY="31" update="18"/>
@@ -29,9 +29,9 @@
     <Location id="2A" parent="29" path="-11,-1;-9,2" posX="234" posY="192" update="48"/>
     <Location id="2B" parent="29" path="-7,-3;-6,-5" posX="220" posY="208" update="59"/>
     <Location id="15" parent="2B" path="0,-7" posX="223" posY="221" update="59"/>
-    <Location id="1C" parent="1B" path="-9,-3;-8,-1;-7,-1;-7,-4;2,-6;8,-3" posX="158" posY="210" update="61"/>
-    <Location id="1D" parent="1C" path="-3,-6;2,-6;8,-3;6,-5;-2,-6;-6,-3" posX="163" posY="242" update="61"/>
+    <Location id="1C" parent="1B" path="-27,-18;-15,-14;-18,-18;-14,-13;-14,-21;-7,-19" posX="216" posY="269" update="61"/>
+    <Location id="1D" parent="1C" path="63,-68;2,-6;8,-3;6,-5;-2,-6;-6,-3" posX="97" posY="304" update="61"/>
     <Location id="16" parent="1D" path="-6,-5;-2,-7;2,-7;6,-6;8,-3;8,0;8,3;8,5;6,5;7,4;8,1;8,-3;2,-8" posX="96" posY="271" update="60"/>
     <Location id="1A" parent="16" path="-3,-7;0,-6;4,-7" posX="88" posY="298" update="60"/>
-    <Location id="2C" parent="01" path="" posX="98" posY="173" update="61"/>
+    <Location id="2C" parent="01" path="" posX="99" posY="164" update="61"/>
 </WorldMap>

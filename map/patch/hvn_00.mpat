@@ -18,15 +18,31 @@
 
 #new:Script_Main $Script_Main
 {
-	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Set   *GB_WorldLocation  .Location:StarWay
+	Set *GF_Map_StarWay .True
 	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
 	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
 	Call  SetCamEnabled      ( .Cam:Default .True )
 	Call  SetCamLeadPlayer   ( .Cam:Default .False )
+	Call  MakeNpcs ( .False $NpcGroupList_GourmetGuy )
 	Exec  $Script_MakeEntities
 	Exec  $Script_SetupMusic
 	Exec  $Script_EnterMap
     Exec  $Script_HoleWarp
+	If *NoticedShyGuy == 0
+		Exec $Script_InitialCutscene
+	EndIf
+	Return
+	End
+}
+
+#new:Script $Script_InitialCutscene 
+{
+	Wait 30`
+	Call DisablePlayerInput ( .True )
+	Call ShowMessageAtScreenPos ( 002F0016 160` 40` )
+	Set *NoticedShyGuy 1
+	Call DisablePlayerInput ( .False )
 	Return
 	End
 }
@@ -58,6 +74,39 @@
 
 #new:Script $Script_MakeEntities
 {
+	Return
+	End
+}
+
+#new:NpcGroupList $NpcGroupList_GourmetGuy
+{
+	00000001 $NpcGroup_GourmetGuy 00000000
+    00000000 00000000 00000000
+}
+
+#new:NpcGroup $NpcGroup_GourmetGuy {
+	00000000 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
+	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:GourmetGuy
+	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_GourmetGuy {
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
+	Return
+	End
+}
+
+#new:Script $Script_DisguiseAsGourmet {
+	Call $DisguiseAs ( .Npc:Self )
 	Return
 	End
 }

@@ -1,0 +1,147 @@
+#define .NpcID:Parakarry 0
+
+@ $Script_80241690 {
+    UseIntBuffer  $IntTable_802415DC
+    Loop  0000001A
+        Get1Int  *Var1
+        Call  TranslateGroup    ( *Var0 00000000 *Var1 00000000 )
+        Wait  1`
+    EndLoop
+    Return
+    UseIntBuffer  $IntTable_80241644
+    Loop  00000013
+        Get1Int  *Var1
+        Call  TranslateGroup    ( *Var0 00000000 *Var1 00000000 )
+        Wait  1`
+    EndLoop
+    Return
+    % Call  $GetParakarryBattleBool ( *Var0 )
+    % Set *VarF *Var0 %copy this original result for later
+    % If *Var0 == .True
+        % Call  $SetParakarryBattleBool ( .False )
+        % Call  $ClearDisguisePointer ()
+        % Call  $SetParakarryIsEatenBool (.False)
+        Call  MakeNpcs ( .False $CustomNpcGroupList )
+        Call  DisablePlayerPhysics ( .True )
+        Call  SetPlayerPos ( 0 -1000` 0)
+    % EndIf
+    Call  DisablePlayerInput        ( .True )
+    Call  ModifyGlobalOverrideFlags ( 00000000 00020000 )
+    Call  SetCamPerspective ( .Cam:Default 00000003  25`  16`  4096` )
+    Call  SetCamBGColor     ( .Cam:Default  0`  0`  0` )
+    Call  SetCamEnabled     ( .Cam:Default .True )
+    Call  SetCamLeadPlayer  ( .Cam:Default .False )
+    Thread
+        Call  GetCurrentPartnerID   ( *Var0 )
+        If  *Var0  !=  .Partner:None % 0
+            Call  DisablePartnerAI  ( 00000000 )
+            Call  SetNpcFlagBits    ( .Npc:Partner 00000200 .False )
+            Call  SetNpcPos ( .Npc:Partner  0`  -1000`  0` )
+        EndIf
+        Call  SetPlayerFlagBits ( 00200000 .True )
+        Call  InterpPlayerYaw   (  90`  0` )
+        Wait  2`
+        % If *VarF == .True
+        % Else 
+            Call  RandInt   ( 00000002 *Var0 )
+            Switch  *Var0
+                Case  ==  00000000
+                    Call SetNpcAnimation ( 00000000 00C10008 ) 
+                Case  ==  00000001
+                    Call SetNpcAnimation ( 00000000 00C1000C ) 
+                Case  ==  00000002
+                    Call SetNpcAnimation ( 00000000 00C1000D ) 
+            EndSwitch
+        % EndIf
+    EndThread
+    Call  SetMusicTrack ( 00000000 .Song:GameOver 00000000 00000008 )
+    Call  ClearAmbientSounds    ( 00000000 )
+    Thread
+        Wait  200`
+        Call  $Function_802405EC ( )
+        Call  $Function_80240688 ( )
+        Wait  100`
+    EndThread
+    Call  802D7CF8  ( 00000000 00000000 00000000 00000140 000000F0 00000080 0000000A )
+    Call  TranslateGroup    ( ~Model:g 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:a 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:m 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:e 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:o 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:v 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:e2 00000000 000000C8 00000000 )
+    Call  TranslateGroup    ( ~Model:r 00000000 000000C8 00000000 )
+    Thread
+        Wait  6`
+        Set   *Var0  00000004
+        Exec  $Script_80241690
+        Wait  6`
+        Set   *Var0  00000006
+        Exec  $Script_80241690
+        Wait  12`
+        Set   *Var0  00000008
+        Exec  $Script_80241690
+        Wait  6`
+        Set   *Var0  0000000A
+        Exec  $Script_80241690
+        Wait  6`
+        Set   *Var0  0000000C
+        Exec  $Script_80241690
+        Wait  6`
+        Set   *Var0  0000000E
+        Exec  $Script_80241690
+        Wait  6`
+        Set   *Var0  00000010
+        Exec  $Script_80241690
+        Wait  18`
+        Set   *Var0  00000012
+        Exec  $Script_80241690[5C]
+    EndThread
+    Thread
+        Call  UseSettingsFrom   ( .Cam:Default  0`  10`  0` )
+        Call  SetPanTarget  ( .Cam:Default  0`  0`  0` )
+        Call  SetCamSpeed   ( .Cam:Default *Fixed[0.3] )
+        Call  PanToTarget   ( .Cam:Default 00000000 00000001 )
+        Wait  94`
+        Call  SetPanTarget  ( .Cam:Default  0`  0`  1000` )
+    EndThread
+    Return
+    End
+}
+
+#new:NpcGroup $CustomNpcGroup
+{
+	%parakarry
+	.NpcID:Parakarry $NpcSettings_Parakarry ~Vec3f:Parakarry
+	00400D0D $Init_Parakarry 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:Parakarry
+	~AnimationTable:Parakarry
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_Parakarry {
+	00000000
+	25`s %collision width
+    25`s %collision height
+	00000000 00000000 00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_Parakarry {
+	Call BindNpcInteract ( .Npc:Self $Interact_Parakarry )
+	Return
+	End
+}
+
+#new:Script $Interact_Parakarry {
+	Call $DisguiseAs ( .Npc:Self )
+	Return
+	End
+}
+
+#new:NpcGroupList $CustomNpcGroupList
+{
+	00000001 $CustomNpcGroup 00000000 %battle ID
+	00000000 00000000 00000000
+}

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="pri_00" author="unnamed" background="kmr_bg" textures="kmr_tex">
 	<Editor>
-		<Camera pos="-9.040998,56.426773,282.671021" pitch="27.759987" yaw="328.000122"/>
-		<Camera pos="-368.077118,65536.000000,241.763931"/>
-		<Camera pos="65536.000000,43.237164,199.299088"/>
-		<Camera pos="-449.572632,49.097137,65536.000000"/>
+		<Camera pos="-283.982239,46.216579,324.344086" pitch="12.320027" yaw="16.840315"/>
+		<Camera pos="-245.941360,65536.000000,100.000000"/>
+		<Camera pos="65536.000000,-103.000000,100.000000"/>
+		<Camera pos="-424.360260,-103.000000,65536.000000"/>
 	</Editor>
 	<ModelTree>
 		<Node name="Root" id="B">
@@ -23,7 +23,7 @@
 		</Node>
 	</ModelTree>
 	<ColliderTree>
-		<Node name="Root" id="E">
+		<Node name="Root" id="F">
 			<Node name="MeshCollider" id="0"/>
 			<Node name="h" id="1"/>
 			<Node name="MeshCollider" id="2"/>
@@ -38,6 +38,7 @@
 			<Node name="MeshCollider" id="B"/>
 			<Node name="DoorCollider" id="C"/>
 			<Node name="MeshCollider" id="D"/>
+			<Node name="MeshCollider" id="E"/>
 		</Node>
 	</ColliderTree>
 	<ZoneTree>
@@ -46,7 +47,7 @@
 		</Node>
 	</ZoneTree>
 	<MarkerTree>
-		<Node name="Root" id="6">
+		<Node name="Root" id="9">
 			<Node name="Entrances" id="1">
 				<Node name="Entry0" id="FFFFFFFF"/>
 				<Node name="Entry1" id="0"/>
@@ -56,6 +57,9 @@
 				<Node name="GourmetGuy" id="3"/>
 				<Node name="Guard" id="4"/>
 			</Node>
+			<Node name="pos" id="6"/>
+			<Node name="SaveBlock" id="7"/>
+			<Node name="HeartBlock" id="8"/>
 		</Node>
 	</MarkerTree>
 	<LightSets>
@@ -115,18 +119,18 @@
 						<VertexTable>
 							<Vertex xyz="-487,0,91" rgba="0,0,0,255"/>
 							<Vertex xyz="-487,0,291" uv="1024,0" rgba="0,0,0,255"/>
-							<Vertex xyz="-487,66,91" uv="0,1024" rgba="0,0,0,255"/>
-							<Vertex xyz="-487,66,291" uv="1024,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-487,100,91" uv="0,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-487,100,291" uv="1024,1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-400,0,291" uv="2048,0" rgba="0,0,0,255"/>
-							<Vertex xyz="-400,66,291" uv="2048,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-400,100,291" uv="2048,1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-400,0,91" uv="3072,0" rgba="0,0,0,255"/>
 							<Vertex xyz="-487,0,91" uv="4096,0" rgba="0,0,0,255"/>
-							<Vertex xyz="-400,66,91" uv="3072,1024" rgba="0,0,0,255"/>
-							<Vertex xyz="-487,66,91" uv="4096,1024" rgba="0,0,0,255"/>
-							<Vertex xyz="-487,66,91" uv="0,-2048" rgba="0,0,0,255"/>
-							<Vertex xyz="-487,66,291" uv="0,-1024" rgba="0,0,0,255"/>
-							<Vertex xyz="-400,66,91" uv="1024,-2048" rgba="0,0,0,255"/>
-							<Vertex xyz="-400,66,291" uv="1024,-1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-400,100,91" uv="3072,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-487,100,91" uv="4096,1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-487,100,91" uv="0,-2048" rgba="0,0,0,255"/>
+							<Vertex xyz="-487,100,291" uv="0,-1024" rgba="0,0,0,255"/>
+							<Vertex xyz="-400,100,91" uv="1024,-2048" rgba="0,0,0,255"/>
+							<Vertex xyz="-400,100,291" uv="1024,-1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-487,0,91" uv="2048,-2048" rgba="0,0,0,255"/>
 							<Vertex xyz="-487,0,291" uv="2048,-1024" rgba="0,0,0,255"/>
 							<Vertex xyz="-400,0,91" uv="3072,-2048" rgba="0,0,0,255"/>
@@ -1863,11 +1867,31 @@
 	</Models>
 	<Colliders>
 		<Collider ver="0" flags="0">
-			<MapObject name="Root" id="E"/>
+			<MapObject name="Root" id="F"/>
 			<HitObject type="ROOT"/>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="D" hidden="true"/>
+			<MapObject name="MeshCollider" id="E"/>
+			<HitObject type="HIT"/>
+			<HitMesh ver="0">
+				<TriangleBatch ver="0">
+					<VertexTable>
+						<Vertex xyz="-400,-1100,300" uv="-512,512" rgba="157,157,157,255"/>
+						<Vertex xyz="400,-1100,-100" uv="512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="-400,-1100,-100" uv="-512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="400,-1100,-100" uv="512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="-400,-1100,300" uv="-512,512" rgba="157,157,157,255"/>
+						<Vertex xyz="400,-1100,300" uv="512,512" rgba="157,157,157,255"/>
+					</VertexTable>
+					<TriangleList>
+						<Triangle ijk="0,1,2"/>
+						<Triangle ijk="3,4,5"/>
+					</TriangleList>
+				</TriangleBatch>
+			</HitMesh>
+		</Collider>
+		<Collider ver="0" flags="0">
+			<MapObject name="MeshCollider" id="D"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -1887,7 +1911,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="DoorCollider" id="C" hidden="true"/>
+			<MapObject name="DoorCollider" id="C"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -1907,7 +1931,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="B" hidden="true"/>
+			<MapObject name="MeshCollider" id="B"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -1959,7 +1983,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="A" hidden="true"/>
+			<MapObject name="MeshCollider" id="A"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -1979,7 +2003,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="9" hidden="true"/>
+			<MapObject name="MeshCollider" id="9"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -1999,7 +2023,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="GuardTrigger" id="8" hidden="true"/>
+			<MapObject name="GuardTrigger" id="8"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2019,7 +2043,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="7" hidden="true"/>
+			<MapObject name="MeshCollider" id="7"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2039,7 +2063,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="HullCollider" id="6" hidden="true"/>
+			<MapObject name="HullCollider" id="6"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2077,7 +2101,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="HullCollider" id="5" hidden="true"/>
+			<MapObject name="HullCollider" id="5"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2115,7 +2139,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="4" hidden="true"/>
+			<MapObject name="MeshCollider" id="4"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2143,7 +2167,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="3" hidden="true"/>
+			<MapObject name="MeshCollider" id="3"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2491,7 +2515,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="2" hidden="true"/>
+			<MapObject name="MeshCollider" id="2"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2839,7 +2863,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="h" id="1" hidden="true"/>
+			<MapObject name="h" id="1"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2865,7 +2889,7 @@
 			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
-			<MapObject name="MeshCollider" id="0" hidden="true"/>
+			<MapObject name="MeshCollider" id="0"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -2896,12 +2920,12 @@
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
 					<VertexTable>
-						<Vertex xyz="-400,-103,300" uv="-512,512" rgba="157,157,157,255"/>
-						<Vertex xyz="400,-103,-100" uv="512,-512" rgba="157,157,157,255"/>
-						<Vertex xyz="-400,-103,-100" uv="-512,-512" rgba="157,157,157,255"/>
-						<Vertex xyz="400,-103,-100" uv="512,-512" rgba="157,157,157,255"/>
-						<Vertex xyz="-400,-103,300" uv="-512,512" rgba="157,157,157,255"/>
-						<Vertex xyz="400,-103,300" uv="512,512" rgba="157,157,157,255"/>
+						<Vertex xyz="-700,-103,300" uv="-512,512" rgba="157,157,157,255"/>
+						<Vertex xyz="800,-103,-100" uv="512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="-700,-103,-100" uv="-512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="800,-103,-100" uv="512,-512" rgba="157,157,157,255"/>
+						<Vertex xyz="-700,-103,300" uv="-512,512" rgba="157,157,157,255"/>
+						<Vertex xyz="800,-103,300" uv="512,512" rgba="157,157,157,255"/>
 					</VertexTable>
 					<TriangleList>
 						<Triangle ijk="0,1,2"/>
@@ -2914,7 +2938,18 @@
 	</Zones>
 	<Markers>
 		<Marker ver="4" type="Root">
-			<MapObject name="Root" id="6"/>
+			<MapObject name="Root" id="9"/>
+		</Marker>
+		<Marker ver="4" type="Entity" pos="193,62,-42" yaw="0.000000">
+			<MapObject name="HeartBlock" id="8"/>
+			<Entity type="802EA7E0"/>
+		</Marker>
+		<Marker ver="4" type="Entity" pos="123,62,-42" yaw="0.000000">
+			<MapObject name="SaveBlock" id="7"/>
+			<Entity type="802E9A18"/>
+		</Marker>
+		<Marker ver="4" type="Position" pos="140,0,214" yaw="0.000000">
+			<MapObject name="pos" id="6"/>
 		</Marker>
 		<Marker ver="4" type="Group">
 			<MapObject name="NPCs" id="5"/>
@@ -2924,7 +2959,7 @@
 			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Sprite sprite="8B" palette="0" animations="1,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0"/>
 		</Marker>
-		<Marker ver="4" type="NPC" pos="0,0,-44" yaw="0.000000">
+		<Marker ver="4" type="NPC" pos="0,-1100,-44" yaw="0.000000">
 			<MapObject name="GourmetGuy" id="3"/>
 			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
 			<Sprite sprite="C1" palette="0" animations="1,2,3,3,B,B,0,0,0,0,0,0,0,0,0,0"/>

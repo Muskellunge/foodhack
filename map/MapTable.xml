@@ -575,10 +575,15 @@
 	<Area name="pri" nickname="prison">
 		<Map name="pri_00" nickname="prison0"/>
 		<Map name="pri_01" nickname="prison2"/>
+		<Map name="pri_02" nickname="prison3"/>
+		<Map name="pri_03" nickname="warden"/>
 	</Area>
 	<Area name="hvn" nickname="heaven">
 		<Map name="hvn_00"/>
 		<Map name="hvn_01" nickname="hospital"/>
+	</Area>
+	<Area name="win" nickname="win">
+		<Map name="win_00" nickname="youwin"/>
 	</Area>
 	<Resource name="mac_tex" compressed="false"/>
 	<Resource name="tik_tex" compressed="false"/>

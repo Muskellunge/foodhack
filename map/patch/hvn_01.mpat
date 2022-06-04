@@ -16,7 +16,7 @@
 
 #new:Script_Main $Script_Main
 {
-	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Set   *GB_WorldLocation  .Location:StarWay
 	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
 	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
 	Call  SetCamEnabled      ( .Cam:Default .True
@@ -44,6 +44,7 @@
 {
     00000001 $NpcGroup_WheelchairThamz 00000000
     00000001 $NpcGroup_SecretToad 00000000
+    00000001 $NpcGroup_GourmetGuy 00000000
     00000000 00000000 00000000
 }
 
@@ -73,10 +74,13 @@
 
 #new:Script $Script_ThamzIdle
 {
-    Wait 45`
-    Call DisablePlayerInput ( .True )
-    Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0101 )
-    Call DisablePlayerInput ( .False )
+	If *MetThamz == 0
+		Wait 45`
+		Call DisablePlayerInput ( .True )
+		Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0101 )
+		Set *MetThamz 1
+		Call DisablePlayerInput ( .False )
+	EndIf
     Return
     End
 }
@@ -85,6 +89,17 @@
 {
     Call DisablePlayerInput ( .True )
     Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0104 )
+	If *TookGun == 1
+		Call SpeakToPlayer ( .Npc:Self 00320004 00320001 0 002F0105 )
+		Call ShowChoice ( 002F0106 )
+		If *Var[0] == 0
+			Call $DisguiseAs ( .Npc:Self )
+			Wait 15`
+			Call ContinueSpeech ( .Npc:Self 00320004 00320001 0 002F0107 )
+		Else
+			Call EndSpeech ( .Npc:Self 00320004 00320001 0 )
+		EndIf
+	EndIf
     Call DisablePlayerInput ( .False )
     Return
     End
@@ -106,6 +121,7 @@
     00000000 00000000 00630010
 }
 
+
 #new:Script $Script_Init_SecretToad
 {
     Call  EnableNpcShadow   ( 00000001 .False )
@@ -113,9 +129,36 @@
     End
 }
 
+#new:NpcGroup $NpcGroup_GourmetGuy {
+	00000002 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
+	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:GourmetGuy
+	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_GourmetGuy {
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
+	Return
+	End
+}
+
+#new:Script $Script_DisguiseAsGourmet {
+	Call $DisguiseAs ( .Npc:Self )
+	Return
+	End
+}
+
 #new:Script $Script_MakeEntities
 {
-    Call MakeItemEntity    ( .Item:Artifact ~Vec3d:Shotgun 00000000 00000000 )
+    Call MakeItemEntity    ( .Item:Artifact ~Vec3d:Shotgun 00000000 *GunItem )
 	Bind  $Script_Door_To_HVN00 .Trigger:WallPressA ~Collider:rndoorcol 00000001 00000000
     Bind $Script_MakeGunFall .Trigger:CeilingTouch ~Collider:ShelfCeiling 1 0
     Bind $Script_ThamzLaugh .Trigger:FloorPressA ~Collider:FloorBelowShelf 1 0
@@ -125,15 +168,21 @@
 
 #new:Script $Script_ThamzLaugh
 {
-    Wait 45`
-    Call DisablePlayerInput ( .True )
-    Call SpeakToPlayer ( 0 00320004 00320001 0 002F0102 )
-    ExecWait $Script_MakeGunFall
-    Call SetNpcAnimation ( 0 00320016 )
-    Wait 90`
-    Call ContinueSpeech ( 0 00320004 00320001 0 002F0103 )
-    Call SetNpcAnimation ( 0 00320001 )
-    Call DisablePlayerInput ( .False )
+	If *TookGun == 0
+    	Wait 45`
+    	Call DisablePlayerInput ( .True )
+    	Call SpeakToPlayer ( 0 00320004 00320001 0 002F0102 )
+		Thread
+			Call PlayerMoveTo ( -116` 60` 15` )
+		EndThread
+		Wait 5`
+    	ExecWait $Script_MakeGunFall
+    	Call SetNpcAnimation ( 0 00320016 )
+    	Wait 90`
+    	Call ContinueSpeech ( 0 00320004 00320001 0 002F0103 )
+    	Call SetNpcAnimation ( 0 00320001 )
+    	Call DisablePlayerInput ( .False )
+	EndIf
     Return
     End
 
@@ -164,9 +213,9 @@
 
 #new:Script $Script_MakeGunFall
 {
-If  *GameFlag[012]  != 1
+If  *TookGun  != 1
     Wait  3`
-	Set   *GameFlag[012]  1
+	Set   *TookGun  1
 	Call  DisablePlayerInput    ( .True )
     Call  SetNpcPos ( 00000001 -111` 96` 64` )
 	Thread

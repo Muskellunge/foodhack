@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prefab author="unnamed" textures="tik_tex">
+	<ModelTree>
+		<Node name="Root" id="2">
+			<Node name="kabe" id="0"/>
+			<Node name="a_kabe" id="1"/>
+		</Node>
+	</ModelTree>
+	<LightSets>
+		<LightSet name="Lights_None" a="0">
+		</LightSet>
+	</LightSets>
+	<Models>
+		<Model ver="2" type="ROOT" lightset="0">
+			<MapObject name="Root" id="2"/>
+			<BoundingBox empty="true" min="0,0,0" max="0,0,0"/>
+			<PropertyList>
+			</PropertyList>
+		</Model>
+		<Model ver="2" type="MODEL" lightset="0">
+			<MapObject name="a_kabe" id="1"/>
+			<ShapeMesh ver="3" texture="tik_tn_kabe3tif">
+				<DisplayList>
+					<F3DEX2 cmd="E7000000,0"/>
+					<F3DEX2 cmd="D9FDFFFF,0"/>
+					<F3DEX2 cmd="D9FFFFFF,200400"/>
+					<TriangleBatch ver="0">
+						<VertexTable>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,100" uv="1024,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,60,100" uv="1024,1229" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,60,100" uv="1024,1229" rgba="176,133,104,255"/>
+							<Vertex xyz="50,80,80" uv="1434,1638" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,80,80" uv="1434,1638" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,80" uv="1434,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,80" uv="1434,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,40" uv="2253,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,40" uv="2253,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,70,20" uv="2662,1434" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,70,20" uv="2662,1434" rgba="176,133,104,255"/>
+							<Vertex xyz="50,60,0" uv="3072,1229" rgba="176,133,104,255"/>
+						</VertexTable>
+						<TriangleList>
+							<Triangle ijk="0,1,2"/>
+							<Triangle ijk="3,4,5"/>
+							<Triangle ijk="6,7,8"/>
+							<Triangle ijk="9,10,11"/>
+							<Triangle ijk="12,13,14"/>
+							<Triangle ijk="15,16,17"/>
+						</TriangleList>
+					</TriangleBatch>
+				</DisplayList>
+			</ShapeMesh>
+			<PropertyList>
+				<Property v="5C,0,1"/>
+				<Property v="5F,0,11000"/>
+			</PropertyList>
+		</Model>
+		<Model ver="2" type="MODEL" lightset="0">
+			<MapObject name="kabe" id="0"/>
+			<ShapeMesh ver="3" texture="tik_tn_kabe3tif">
+				<DisplayList>
+					<F3DEX2 cmd="E7000000,0"/>
+					<F3DEX2 cmd="D9FDFFFF,0"/>
+					<F3DEX2 cmd="D9FFFFFF,200400"/>
+					<TriangleBatch ver="0">
+						<VertexTable>
+							<Vertex xyz="50,100,80" uv="1434,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,80" uv="1434,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,200,20" uv="2662,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,100,80" uv="1434,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,20" uv="2662,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,100,20" uv="2662,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,100" uv="1024,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,200,80" uv="1434,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,80,80" uv="1434,1638" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,100" uv="1024,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,80,80" uv="1434,1638" rgba="176,133,104,255"/>
+							<Vertex xyz="50,60,100" uv="1024,1229" rgba="176,133,104,255"/>
+							<Vertex xyz="50,70,20" uv="2662,1434" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,20" uv="2662,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,200,0" uv="3072,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,70,20" uv="2662,1434" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,0" uv="3072,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,60,0" uv="3072,1229" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,40" uv="2253,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,100,20" uv="2662,2048" rgba="176,133,104,255"/>
+							<Vertex xyz="50,70,20" uv="2662,1434" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,-50" uv="4096,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,0" uv="3072,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,0" uv="3072,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,0,-50" uv="4096,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,0" uv="3072,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,200,-50" uv="4096,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,0,100" uv="1024,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,0,150" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,150" uv="0,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,0,100" uv="1024,0" rgba="176,133,104,255"/>
+							<Vertex xyz="50,200,150" uv="0,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="50,200,100" uv="1024,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="-250,0,-50" rgba="116,87,68,255"/>
+							<Vertex xyz="-100,0,-50" uv="3072,0" rgba="116,87,68,255"/>
+							<Vertex xyz="-100,200,-50" uv="3072,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-250,0,-50" rgba="116,87,68,255"/>
+							<Vertex xyz="-100,200,-50" uv="3072,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-250,200,-50" uv="0,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-100,0,-50" uv="3072,0" rgba="116,87,68,255"/>
+							<Vertex xyz="50,0,-50" uv="6144,0" rgba="116,87,68,255"/>
+							<Vertex xyz="50,200,-50" uv="6144,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-100,0,-50" uv="3072,0" rgba="116,87,68,255"/>
+							<Vertex xyz="50,200,-50" uv="6144,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-100,200,-50" uv="3072,4096" rgba="56,42,33,255"/>
+							<Vertex xyz="-250,200,-50" uv="4096,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="-250,200,150" uv="0,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="-250,0,150" rgba="176,133,104,255"/>
+							<Vertex xyz="-250,200,-50" uv="4096,4096" rgba="98,71,52,255"/>
+							<Vertex xyz="-250,0,150" rgba="176,133,104,255"/>
+							<Vertex xyz="-250,0,-50" uv="4096,0" rgba="176,133,104,255"/>
+						</VertexTable>
+						<TriangleList>
+							<Triangle ijk="0,1,2"/>
+							<Triangle ijk="3,4,5"/>
+							<Triangle ijk="6,7,8"/>
+							<Triangle ijk="9,10,11"/>
+							<Triangle ijk="12,13,14"/>
+							<Triangle ijk="15,16,17"/>
+							<Triangle ijk="18,19,20"/>
+							<Triangle ijk="21,22,23"/>
+							<Triangle ijk="24,25,26"/>
+							<Triangle ijk="27,28,29"/>
+							<Triangle ijk="30,31,32"/>
+							<Triangle ijk="33,34,35"/>
+							<Triangle ijk="36,37,38"/>
+							<Triangle ijk="39,40,41"/>
+							<Triangle ijk="42,43,44"/>
+							<Triangle ijk="45,46,47"/>
+							<Triangle ijk="48,49,50"/>
+						</TriangleList>
+					</TriangleBatch>
+				</DisplayList>
+			</ShapeMesh>
+			<PropertyList>
+				<Property v="5C,0,1"/>
+				<Property v="5F,0,11000"/>
+			</PropertyList>
+		</Model>
+	</Models>
+</Prefab>

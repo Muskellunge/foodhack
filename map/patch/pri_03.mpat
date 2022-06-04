@@ -1,0 +1,172 @@
+% Auto-generated script for pri_03
+
+#new:Header $Header
+{
+	[MainScript] $Script_Main
+	[Background] 00000000
+	[EntryList] $EntryList
+	[EntryCount] 1
+}
+
+#new:EntryList $EntryList
+{
+	~Vec4f:Entry0
+}
+
+#new:Script_Main $Script_Main
+{
+	Set   *GB_WorldLocation  .Location:PeachCastleGrounds
+	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
+	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
+	Call  SetCamEnabled      ( .Cam:Default .True
+	Call  SetCamLeadPlayer   ( .Cam:Default .False )
+	Call  MakeNpcs ( .False $NpcGroupList_Pri03 )
+	Exec  $Script_SetupMusic
+	Exec  $Script_MakeEntities
+	Exec  $Script_EnterMap
+	Return
+	End
+}
+
+#new:Script $Script_MakeEntities
+{
+	Call  MakeEntity    ( .Entity:ScriptSpring ~Vec4d:Spring 80000000 )
+	Call  AssignScript    ( $Script_ScriptedSpring_Spring )
+	Return
+	End
+}
+
+#new:NpcGroup $NpcGroup_GourmetGuy {
+	00000001 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
+	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:GourmetGuy
+	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_GourmetGuy {
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
+	Return
+	End
+}
+
+#new:Script $Script_DisguiseAsGourmet {
+	Call $DisguiseAs ( .Npc:Self )
+	Return
+	End
+}
+
+#new:NpcGroupList $NpcGroupList_Pri03
+{
+	00000001 $NpcGroup_Kent 00000000
+	00000001 $NpcGroup_GourmetGuy 00000000
+	00000000 00000000 00000000
+}
+
+#new:NpcGroup $NpcGroup_Kent {
+	00000002 $NpcSettings_Kent ~Vec3f:KentCKoopa
+	00400D0D $Init_Kent 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:KentCKoopa
+	~AnimationTable:KentCKoopa
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_Kent {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_Kent {
+	Call BindNpcInteract ( .Npc:Self $Script_KentCTalk )
+	Return
+	End
+}
+
+#new:Script $Script_KentCTalk {
+	Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F0013 )
+	Return
+	End
+}
+
+#new:Script $Script_ScriptedSpring_Spring
+{
+	Call  DisablePlayerInput    ( .True )
+	Call  DisablePlayerPhysics  ( .True )
+	Call  SetPlayerActionState  ( .ActionState:Launch )
+	Wait  1`
+	% Exec  $Script_ScriptedSpring_FollowCam *Var[A]
+	Call  SetPlayerJumpscale    ( *Fixed[0.7] )
+	Thread
+		Call  PlayerJump            ( ~Vec3d:DestMarker 10` )
+	EndThread
+	% Kill  *Var[A]
+	Call GotoMap ( "fod_02" 2 )
+	Call  SetPlayerActionState  ( .ActionState:Idle )
+	Call  DisablePlayerPhysics  ( .False )
+	Call  DisablePlayerInput    ( .False )
+	Return
+	End
+}
+
+#new:Script $Script_ScriptedSpring_FollowCam
+{
+	Loop
+		Call  GetPlayerPos  ( *Var[0] *Var[1] *Var[2] )
+		Call  SetCamTarget  ( .Cam:Default *Var[0] *Var[1] *Var[2] )
+		Wait  1`
+	EndLoop
+	Return
+	End
+}
+
+#new:Function_Init $Function_Init
+{
+	PUSH    RA
+	LIA     A0, 800B0CF0
+	LIA     A1, "kmr_tex"
+	JAL     800654F0 % sprintf
+	RESERVED
+	CLEAR  V0
+	JPOP   RA
+}
+
+#new:Script $Script_SetupMusic
+{
+	Return
+	End
+}
+
+#new:Script $Script_EnterMap
+{
+	Exec $Script_CreateExitTriggers
+	Return
+	End
+}
+
+#new:Script $Script_WalkToPri01
+{
+	SetGroup 0000001B
+	Call     UseExitHeading ( 60` ~Entry:Entry0 )
+	Exec     ExitWalk
+	Call  GotoMap   ( "pri_01" 00000002 )
+	Wait  100`
+	Return
+	End
+}
+
+#new:Script $Script_CreateExitTriggers
+{
+	Bind  $Script_WalkToPri01 .Trigger:FloorAbove ~Collider:Pri01LZ 00000001 00000000
+	Return
+	End
+}
+

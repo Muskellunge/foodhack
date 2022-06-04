@@ -1,0 +1,373 @@
+% Auto-generated script for pri_02
+
+#new:Header $Header
+{
+	[MainScript] $Script_Main
+	[Background] 00000000
+	[EntryList] $EntryList
+	[EntryCount] 1
+}
+
+#new:EntryList $EntryList
+{
+	~Vec4f:Entry0
+}
+
+#new:Script_Main $Script_Main
+{
+	Set   *GB_WorldLocation  .Location:PeachCastleGrounds
+	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
+	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
+	Call  SetCamEnabled      ( .Cam:Default .True
+	Call  SetCamLeadPlayer   ( .Cam:Default .False )
+	Call MakeNpcs ( .False $NpcGroupList_Pri02 )
+	Exec  $Script_MakeEntities
+	Exec  $Script_SetupMusic
+	Exec  $Script_EnterMap
+	Return
+	End
+}
+
+#new:NpcGroup $NpcGroup_GourmetGuy {
+	00000001 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
+	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:GourmetGuy
+	~AnimationTable:GourmetGuy
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_GourmetGuy {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_GourmetGuy {
+    Call BindNpcIdle ( .Npc:Self $Script_DisguiseAsGourmet )
+	Return
+	End
+}
+
+#new:Script $Script_DisguiseAsGourmet {
+	Call $DisguiseAs ( .Npc:Self )
+	Return
+	End
+}
+
+#new:Script $Script_MakeEntities
+{
+	Call MakeItemEntity ( .Item:PulseStone ~Vec3d:Donut .ItemSpawnMode:Fixed_NeverVanish *DonutPickedUp )
+	Return
+	End
+}
+
+#new:NpcGroupList $NpcGroupList_Pri02
+{
+	00000001 $NpcGroup_WardenYoshi 00000000
+	00000001 $NpcGroup_GourmetGuy 00000000
+	00000000 00000000 00000000
+}
+
+#new:NpcGroup $NpcGroup_WardenYoshi {
+	00000002 $NpcSettings_WardenYoshi ~Vec3f:WardenYoshi
+	00400D0D $Init_WardenYoshi 00000000 00000000 0000005A
+	~NoDrops
+	~Movement:WardenYoshi
+	~AnimationTable:WardenYoshi
+	00000001 00000000 00000000 00000000
+}
+
+#new:NpcSettings $NpcSettings_WardenYoshi {
+	00000000 00200016 00000000 00000000
+    00000000 00000000 00000000 00000000
+	00000000 00000000 00630000
+}
+
+#new:Script $Init_WardenYoshi {
+	Call BindNpcIdle ( .Npc:Self $Script_InitiateBattleYoshi )
+	Return
+	End
+}
+
+#new:Script $Script_InitiateBattleYoshi {
+	Call DisablePlayerInput ( .True )
+	Call  SetNpcFlagBits ( .Npc:Self 00000200 .True ) 
+	Wait 30`
+	Call SpeakToPlayer ( .Npc:Self 00C20009 00C20001 0 002F0300 )
+	Call GetNpcPos ( .Npc:Self *Var[0] *Var[1] *Var[2]  )
+	Call SetCamTarget ( .Npc:Self *Var[0] *Var[1] *Var[2] )
+	Call SetNpcAnimation ( .Npc:Self 00C20010 )
+	Wait 30`
+	Call SetNpcAnimation ( .Npc:Self 00C20003 )
+	Wait 15`
+	Call SetNpcAnimation ( .Npc:Self 00C20006 )
+	Call NpcMoveTo ( .Npc:Self 144` 238` 60` )
+	Call NpcMoveTo ( .Npc:Self 144` 340` 60` )
+	Call InterpNpcYaw ( .Npc:Self 270` 15` )
+	Call SetNpcAnimation ( .Npc:Self 00C20003 )
+	Call SpeakToPlayer ( .Npc:Self 00C20009 00C20001 0 002F0310 )
+	Call SetNpcAnimation ( .Npc:Self 00C2000E ) %searching pockets
+	Wait 30`
+	Call SetNpcAnimation ( .Npc:Self 00C20013 )
+	Call SetItemPos ( 0 200` 0` 377` )
+	Wait 15`
+	Call ContinueSpeech ( .Npc:Self 00C20009 00C20001 0 002F0311 )
+	Call ShowMessageAtScreenPos ( 002F0312 160` 40` )
+	Call SpeakToPlayer ( .Npc:Self 00C20009 00C20001 0 002F0313 )
+	Call SetNpcAnimation ( .Npc:Self 00C20003 )
+	ExecWait $Script_YoshiBattle
+	Call DisablePlayerInput ( .False )
+	Return
+	End
+}
+
+#new:Script $Script_YoshiBattle
+{
+	Call SetMusicTrack ( 0 .Song:MontyMoleAssault 0 F )
+	Set *YoshiHealth 30`
+	Call $Function_GetCurrentHp ( *Var[0] )
+	Set *GourmetHealth *Var[0]
+	Set *Var[4] 2`
+	Call ShowMessageAtScreenPos ( 002F0301 160` 40` ) % encounters the warden
+	Label A
+	% your turn
+	Call ShowMessageAtScreenPos ( 002F020A 160` 40` ) % what do you want to do?
+	Call ShowChoice ( 002F0201 )
+	Switch *Var[0]
+		Case == 0 %attack
+			Call SwitchMessage ( 002F0202 ) % body slam attack
+			Sub *YoshiHealth 1
+		Case == 1 %defend
+			Call HasKeyItem ( .Item:KootRedJar *Var[2] ) 
+			If *Var[2] == 1
+				Call SwitchMessage ( 002F0306 ) % uses meat shield
+				Set *GourmetDefendSpecial 1
+	 		Else
+				Call SwitchMessage ( 002F0203 ) % defensive stance
+				Set *GourmetDefending 1
+			EndIf
+		Case == 2 %eat
+			If *UsedShotgun == 0
+				Call HasKeyItem ( .Item:Artifact *Var[2] )
+				If *Var[2] == 1
+					Call SwitchMessage ( 002F0304 ) % use shotgun
+					Sub *YoshiHealth 16`
+					Set *UsedShotgun 1
+				Else
+					Call $api_isSlowGoEquipped (*Var[1])
+					If *Var[1] == 1
+						Call SwitchMessage  ( 002F0305 ) % fail, with slow go
+					Else
+						Call SwitchMessage ( 002F0308 ) % fail, without slow go
+					EndIf
+				EndIf
+			Else
+				Call $api_isSlowGoEquipped (*Var[1])
+				If *Var[1] == 1
+					Call SwitchMessage  ( 002F0305 ) % fail, with slow go
+				Else
+					Call SwitchMessage ( 002F0308 ) % fail, without slow go
+				EndIf
+			EndIf
+		Case == 3 %check
+			Call SetMessageValue ( *YoshiHealth 0 )
+			Call SwitchMessage  ( 002F0303 ) % check warden
+			Goto A
+	EndSwitch
+	If *YoshiHealth > 0
+		% enemy turn
+		If *GunCharged == 1
+			Call SwitchMessage ( 002F030A ) % fires gun
+			If *GourmetDefendSpecial == 1
+				Call SwitchMessage ( 002F030B ) % meat shield, 1 damage
+				Call $Function_SubtractHP ( 00000001 )
+				Sub *GourmetHealth 1
+				Set *GourmetDefendSpecial 0
+			Else
+				If *GourmetDefending == 1
+					Call SwitchMessage ( 002F030E ) % regular defend, 3 damage
+					Call $Function_SubtractHP ( 00000003 )
+					Sub *GourmetHealth 3
+					Set *GourmetDefending 0
+				Else
+					Call SwitchMessage ( 002F030C ) % full 4 damage
+					Call $Function_SubtractHP ( 00000004 )
+					Sub *GourmetHealth 4
+				EndIf
+			EndIf
+			Call SetNpcAnimation ( .Npc:Self 00C20003 )
+			Set *Var[4] 2`
+			Set *GunCharged 0
+		Else
+			If *Var[4] == 0 % gun attack prep
+				Call SwitchMessage ( 002F0309 ) % gun safety on
+				Call SetNpcAnimation ( .Npc:Self 00C2000E )
+				Wait 30`
+				Call SetNpcAnimation ( .Npc:Self 00C20014 )
+				Call SwitchMessage ( 002F0316 )
+				If *SeenThePistol == 0
+					Call CloseMessage ()
+					Call SpeakToPlayer ( .Npc:Self 00C20009 00C20014 0 002F0314 )
+					Call ShowMessageAtScreenPos ( 002F0315 160` 40` )
+					Set *SeenThePistol 1`
+				EndIf
+				Set *GunCharged 1
+			Else
+				Call SwitchMessage ( 002F0302 ) % "The Warden attacks."
+				If *GourmetDefendSpecial == 1
+					Call SwitchMessage ( 002F0307 ) % block with meat shield
+					Set *GourmetDefendSpecial 0
+				Else
+					If *GourmetDefending == 0
+						Call SwitchMessage  ( 002F0209 ) % 1 damage
+						Call $Function_SubtractHP ( 00000001 )
+						Sub *GourmetHealth 1
+						Wait 30`
+					Else
+						Call SwitchMessage ( 002F0208 ) % blocked by regular defend
+						Set *GourmetDefending 0
+					EndIf
+				EndIf
+				Sub *Var[4] 1
+			EndIf
+		EndIf
+		% death
+		If *GourmetHealth < 1
+			Call SwitchMessage  ( 002F030D ) % lost the battle
+			Call GotoMap ( "gv_01" 0 )
+		EndIf
+		Wait 30`
+		Call CloseMessage ()
+		Goto A
+	EndIf
+		% if you made it here, you win!
+		Call SetMusicTrack ( 0 .Song:BattleEnd 0 F ) 
+		Call SwitchMessage  ( 002F030F )
+		Call CloseMessage ()
+		Call SetNpcPos ( 0 -200` -1100` 200 )
+		Set *DefeatedYoshi 1
+		Call GotoMapSpecial ( "win_00" 0 D )
+	Return
+	End
+}
+
+#new:Function_Init $Function_Init
+{
+	PUSH    RA
+	LIA     A0, 800B0CF0
+	LIA     A1, "kmr_tex"
+	JAL     800654F0 % sprintf
+	RESERVED
+	CLEAR  V0
+	JPOP   RA
+}
+
+% args: var out
+#new:Function $Function_GetCurrentHp
+{
+	PUSH RA
+	LIO t0, 8010F290
+	LB t1, 0002 (t0) % load current hp
+	
+	% call set variable with args
+	
+	LW t2, 000C (a0) % store the pointer to args in t2
+	LW a1, 0000 (t2) % store the first func arg in a1
+	ADDU a2, r0, t1 % store new value in a2
+	JAL ~Func:set_variable
+	NOP
+	POP RA
+	JR RA
+	ORI v0, r0, 2
+}
+
+#new:Function $Function_SubtractHP
+{
+	LIO t0, 8010F290
+	LB t1, 0002 (t0) % load current hp
+	LW t2, 000C (a0) % store the pointer to args in t2
+	LW t3, 0000 (t2) % store the first func arg in a1
+	SUB t4, t1, t3 %rd, rs, rt
+	BLEZ t4, .lessThanZero
+	NOP 
+	SB t4, 0002 (t0)
+	BEQ r0, r0, .finally
+	NOP
+	.lessThanZero
+	SB r0, 0002 (t0)
+	.finally
+	JR RA 
+	ORI v0, r0, 2
+}
+
+#new:Function $api_isSlowGoEquipped
+{
+	PUSH s0, ra
+	ADDU s0, r0, a0 % temporarily store the script pointer in s0 for later
+	JAL $isBadgeEquipped % stores 1 or 0 in v0
+	ORI a0, r0, 00F7 % the badge to check
+	
+	% call set variable with args
+	ADDU a0, r0, s0 % put the script pointer back in a0
+	
+	LW t0, 000C (s0) % store the pointer to args in s1
+	LW a1, 0000 (t0) % store the first func arg in a1
+
+	ADDU a2, r0, v0 % store new value in a2
+	
+	JAL ~Func:set_variable
+	NOP
+	POP s0, ra
+	JR RA
+	ORI v0, r0, 2
+}
+
+#new:Function $isBadgeEquipped
+{
+    .Init
+    LIO t2, 8010F498
+    ADDIU t3, t2, 78 %end of list
+    .loop
+    LH t1, 0 (t2)
+    BEQL a0, t1, .end
+    ADDIU v0, r0, 1 %return true
+    BNE t2, t3, .loop
+    ADDIU t2, t2, 2
+    ADDIU v0, r0, 0 %return false
+    .end
+    JR RA
+    NOP
+}
+
+#new:Script $Script_SetupMusic
+{
+	Return
+	End
+}
+
+#new:Script $Script_EnterMap
+{
+	Exec $Script_CreateExitTriggers
+	Return
+	End
+}
+
+#new:Script $Script_WalkToPri01
+{
+	SetGroup 0000001B
+	Call     UseExitHeading ( 60` ~Entry:Entry0 )
+	Exec     ExitWalk
+	Call  GotoMap   ( "pri_01" 00000001 )
+	Wait  100`
+	Return
+	End
+}
+
+#new:Script $Script_CreateExitTriggers
+{
+	Bind  $Script_WalkToPri01 .Trigger:FloorAbove ~Collider:Pri01LZ 00000001 00000000
+	Return
+	End
+}
+

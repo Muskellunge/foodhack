@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="hvn_00" author="unnamed" background="sra_bg" textures="flo_tex">
 	<Editor>
-		<Camera pos="-24.152138,50.305042,52.587799" pitch="12.919997" yaw="359.519989"/>
-		<Camera pos="-1.859176,65536.000000,98.231712"/>
-		<Camera pos="65536.000000,-120.835907,-4.696885"/>
-		<Camera pos="-36.819229,-10.648329,65536.000000"/>
+		<Camera pos="0.360637,-1049.867554,281.943512" pitch="-9.640039" yaw="358.400299"/>
+		<Camera pos="-86.504547,65536.000000,35.819729"/>
+		<Camera pos="65536.000000,-72.494019,-4.696885"/>
+		<Camera pos="-21.231205,-138.821945,65536.000000"/>
 	</Editor>
 	<ModelTree>
 		<Node name="Root" id="4E">
@@ -117,7 +117,7 @@
 		</Node>
 	</ModelTree>
 	<ColliderTree>
-		<Node name="Root" id="D">
+		<Node name="Root" id="E">
 			<Node name="g1" id="8">
 				<Node name="g16" id="3">
 					<Node name="deilie" id="0"/>
@@ -134,20 +134,18 @@
 			<Node name="o244" id="A"/>
 			<Node name="o307" id="B"/>
 			<Node name="MeshCollider" id="C"/>
+			<Node name="Planar GridCollider" id="D"/>
 		</Node>
 	</ColliderTree>
 	<ZoneTree>
-		<Node name="Root" id="5">
-			<Node name="g1" id="3">
+		<Node name="Root" id="2">
+			<Node name="g1" id="1">
 				<Node name="o1" id="0"/>
-				<Node name="o8" id="1"/>
-				<Node name="o7" id="2"/>
 			</Node>
-			<Node name="o1" id="4"/>
 		</Node>
 	</ZoneTree>
 	<MarkerTree>
-		<Node name="Root" id="5">
+		<Node name="Root" id="7">
 			<Node name="Entrances" id="3">
 				<Node name="Entry0" id="FFFFFFFF"/>
 				<Node name="Entry1" id="0"/>
@@ -155,6 +153,9 @@
 				<Node name="Entry3" id="2"/>
 			</Node>
 			<Node name="Entities" id="4"/>
+			<Node name="NPCs" id="6">
+				<Node name="GourmetGuy" id="5"/>
+			</Node>
 		</Node>
 	</MarkerTree>
 	<LightSets>
@@ -2779,8 +2780,26 @@
 	</Models>
 	<Colliders>
 		<Collider ver="0" flags="0">
-			<MapObject name="Root" id="D"/>
+			<MapObject name="Root" id="E"/>
 			<HitObject type="ROOT"/>
+		</Collider>
+		<Collider ver="0" flags="0">
+			<MapObject name="Planar GridCollider" id="D"/>
+			<HitObject type="HIT"/>
+			<HitMesh ver="0">
+				<TriangleBatch ver="0">
+					<VertexTable>
+						<Vertex xyz="-100,-1100,100" uv="-512,512"/>
+						<Vertex xyz="100,-1100,-100" uv="512,-512"/>
+						<Vertex xyz="-100,-1100,-100" uv="-512,-512"/>
+						<Vertex xyz="100,-1100,100" uv="512,512"/>
+					</VertexTable>
+					<TriangleList>
+						<Triangle ijk="0,1,2"/>
+						<Triangle ijk="1,0,3"/>
+					</TriangleList>
+				</TriangleBatch>
+			</HitMesh>
 		</Collider>
 		<Collider ver="0" flags="0">
 			<MapObject name="MeshCollider" id="C"/>
@@ -3129,93 +3148,15 @@
 	</Colliders>
 	<Zones>
 		<Zone ver="0">
-			<MapObject name="Root" id="5"/>
+			<MapObject name="Root" id="2"/>
 			<HitObject type="ROOT"/>
 		</Zone>
 		<Zone ver="0">
-			<MapObject name="o1" id="4" hidden="true"/>
-			<HitObject type="HIT"/>
-			<HitMesh ver="0">
-				<TriangleBatch ver="0">
-					<VertexTable>
-						<Vertex xyz="-210,0,106"/>
-						<Vertex xyz="-197,0,250"/>
-						<Vertex xyz="120,0,516"/>
-						<Vertex xyz="-210,0,106"/>
-						<Vertex xyz="120,0,516"/>
-						<Vertex xyz="533,0,480"/>
-						<Vertex xyz="-210,0,106"/>
-						<Vertex xyz="533,0,480"/>
-						<Vertex xyz="58,0,20"/>
-						<Vertex xyz="533,0,480"/>
-						<Vertex xyz="799,0,163"/>
-						<Vertex xyz="778,0,-75"/>
-						<Vertex xyz="533,0,480"/>
-						<Vertex xyz="778,0,-75"/>
-						<Vertex xyz="456,0,-394"/>
-						<Vertex xyz="533,0,480"/>
-						<Vertex xyz="456,0,-394"/>
-						<Vertex xyz="58,0,20"/>
-					</VertexTable>
-					<TriangleList>
-						<Triangle ijk="0,1,2"/>
-						<Triangle ijk="3,4,5"/>
-						<Triangle ijk="6,7,8"/>
-						<Triangle ijk="9,10,11"/>
-						<Triangle ijk="12,13,14"/>
-						<Triangle ijk="15,16,17"/>
-					</TriangleList>
-				</TriangleBatch>
-			</HitMesh>
-			<Camera type="TYPE_0" flag="false" boomLength="450.000000" boomPitch="17.000000" viewPitch="-7.000000" posA="666,0,321" posB="283,0,0" posC="0,0,0"/>
-		</Zone>
-		<Zone ver="0">
-			<MapObject name="g1" id="3" dumped="true" fileOffset="838"/>
+			<MapObject name="g1" id="1" dumped="true" fileOffset="838"/>
 			<HitObject type="GROUP"/>
 		</Zone>
 		<Zone ver="0">
-			<MapObject name="o7" id="2" hidden="true" dumped="true" fileOffset="82C"/>
-			<HitObject type="HIT"/>
-			<HitMesh ver="0">
-				<TriangleBatch ver="0">
-					<VertexTable>
-						<Vertex xyz="600,0,-207"/>
-						<Vertex xyz="500,0,-207"/>
-						<Vertex xyz="500,0,207"/>
-						<Vertex xyz="600,0,207"/>
-						<Vertex xyz="500,0,-199"/>
-						<Vertex xyz="325,0,382"/>
-					</VertexTable>
-					<TriangleList>
-						<Triangle ijk="0,1,2"/>
-						<Triangle ijk="0,2,3"/>
-						<Triangle ijk="2,4,5"/>
-					</TriangleList>
-				</TriangleBatch>
-			</HitMesh>
-			<Camera type="TYPE_2" flag="false" boomLength="450.000000" boomPitch="17.000000" viewPitch="-6.000000" posA="500,325,208" posB="500,383,-200" posC="325,0,383"/>
-		</Zone>
-		<Zone ver="0">
-			<MapObject name="o8" id="1" hidden="true" dumped="true" fileOffset="820"/>
-			<HitObject type="HIT"/>
-			<HitMesh ver="0">
-				<TriangleBatch ver="0">
-					<VertexTable>
-						<Vertex xyz="-322,0,385"/>
-						<Vertex xyz="-475,0,-232"/>
-						<Vertex xyz="-500,0,-207"/>
-						<Vertex xyz="-500,0,207"/>
-					</VertexTable>
-					<TriangleList>
-						<Triangle ijk="0,1,2"/>
-						<Triangle ijk="0,2,3"/>
-					</TriangleList>
-				</TriangleBatch>
-			</HitMesh>
-			<Camera type="TYPE_2" flag="false" boomLength="450.000000" boomPitch="17.000000" viewPitch="-6.000000" posA="-476,-323,168" posB="-476,386,-233" posC="-323,0,386"/>
-		</Zone>
-		<Zone ver="0">
-			<MapObject name="o1" id="0" hidden="true" dumped="true" fileOffset="814"/>
+			<MapObject name="o1" id="0" dumped="true" fileOffset="814"/>
 			<HitObject type="HIT"/>
 			<HitMesh ver="0">
 				<TriangleBatch ver="0">
@@ -3246,7 +3187,15 @@
 	</Zones>
 	<Markers>
 		<Marker ver="4" type="Root">
-			<MapObject name="Root" id="5"/>
+			<MapObject name="Root" id="7"/>
+		</Marker>
+		<Marker ver="4" type="Group">
+			<MapObject name="NPCs" id="6"/>
+		</Marker>
+		<Marker ver="4" type="NPC" pos="0,-1100,0" yaw="0.000000">
+			<MapObject name="GourmetGuy" id="5"/>
+			<Movement type="Stationary" data="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"/>
+			<Sprite sprite="3B" palette="0" animations="1,2,4,4,9,A,0,0,0,0,0,0,0,0,0,0"/>
 		</Marker>
 		<Marker ver="4" type="Group">
 			<MapObject name="Entities" id="4"/>

@@ -966,8 +966,8 @@
 
 #string:25:094
 {
-	Makes Mario unable to run. His[BR]
-	pace becomes very slow.[End]
+	Makes Gourmet Guy unable to[BR]
+	run. His pace becomes very slow.[End]
 }
 
 #string:25:095
@@ -1726,7 +1726,7 @@
 
 #string:25:10B
 {
-	A jar at Little Mouser's Shop.[BR]
-	A collector's item, perhaps?[End]
+	With this, Gourmet Guy will[BR]
+	take less damage when defending.[End]
 }
 

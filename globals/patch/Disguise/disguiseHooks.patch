@@ -52,3 +52,16 @@
 	J 80036210
 	ADDIU v1, v1, A650
 }
+
+% RAM: 800E4300 (collision_main_lateral)
+% Hooks the JR RA.
+@Hook 7D7B0 {
+	ADDIU SP, SP, 80
+
+	PUSH RA
+		% JAL $ice_physics_main
+		% NOP
+		JAL $update_disguise_npc
+		NOP
+	JPOP RA
+}

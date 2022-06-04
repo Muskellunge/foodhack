@@ -1,5 +1,4 @@
-#define .NpcID:GourmetGuy 0
-#define .NpcID:WeirdToad 1
+
 #new:NpcGroup $NpcGroup_GourmetGuy {
 	00000000 $NpcSettings_GourmetGuy ~Vec3f:GourmetGuy
 	00400D0D $Init_GourmetGuy 00000000 00000000 0000005A
@@ -31,6 +30,25 @@
 
 #new:Script $Init_WeirdToad {
     Call BindNpcIdle ( .Npc:Self $Script_ToadCutscene )
+    Call BindNpcInteract ( .Npc:Self $Script_WeirdToadInteract )
+    Return
+    End
+}
+
+#new:Script $Script_WeirdToadInteract
+{
+    If *CorrectAnswer == 1
+        If *GotMeat == 0
+            Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0014 )
+            Call ShowGotItem ( .Item:KootRedJar .True 0 )
+            Call AddKeyItem ( .Item:KootRedJar )
+            Set *GotMeat 1
+        Else
+            Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0015 )
+        EndIf
+    Else
+        Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0010 )
+    EndIf
     Return
     End
 }
@@ -49,13 +67,18 @@
 
 #new:Script_Main $Script_Main
 {
-	Set   *GB_WorldLocation  .Location:GoombaRoad
+	Set   *GB_WorldLocation  .Location:ShootingStarSummit
+    Set  *GF_Map_ShootingStarSummit .True
 	Call  SetCamPerspective  ( .Cam:Default 00000003 00000019 00000010 00001000 )
 	Call  SetCamBGColor      ( .Cam:Default 00000000 00000000 00000000 )
 	Call  SetCamEnabled      ( .Cam:Default .True )
 	Call  SetCamLeadPlayer   ( .Cam:Default .False )
     Call  MakeNpcs ( .False $NpcGroupList_GourmetGuy )
 	Exec  $Script_SetupMusic
+    Call GetEntryID ( *Var[0] )
+    If *Var[0] == 2
+        Exec $Script_EntryFromPrison
+    EndIf
 	Exec  $Script_EnterMap
     Exec  $Script_MakeItemEntities
     Exec  $Script_MakeBinds
@@ -63,9 +86,25 @@
         Set *GB_StoryProgress 91
         Set *StartedGame 1
         Exec $Script_OpeningCutscene
-    EndIf 
+    EndIf
+    If *NoticedShyGuy == 1
+        If *NoticedReturn == 0
+            Exec $Script_ReturnToGourmet
+        EndIf
+    EndIf
 	Return
 	End
+}
+
+#new:Script $Script_ReturnToGourmet
+{
+    Wait 45`
+    Call DisablePlayerInput ( .True )
+    Call ShowMessageAtScreenPos ( 002F0017 160` 40` )
+    Set *NoticedReturn 1
+    Call DisablePlayerInput ( .False )
+    Return
+    End
 }
 
 #new:Script $Script_MakeBinds {
@@ -92,9 +131,9 @@
 #new:Script $Script_FoodChoice {
     Call DisablePlayerInput ( .True )
     Call SetMessageString ( *Var[1] 0 )
-    Call ShowMessageAtScreenPos ( 002F0007 160` 40` )
+    Call SpeakToPlayer ( 1 00830404 00830401 00000000 002F0007 )
     Call ShowChoice ( 002F0008 )
-    Call CloseMessage ()
+    Call EndSpeech ( 1 00830404 00830401 00000000 )
     If *Var[0] == 00000000
         If *Var[1] == 00260054
             Call SpeakToPlayer ( 1 00830404 00830401 00000000 002F0009 )
@@ -111,8 +150,17 @@
 
 #new:Script $Script_CorrectAnswer
 {
-    Call EnableModel ( ~Model:ItemTwoFloorModel .False )
-    Call  ModifyColliderFlags ( 00000000 ~Collider:ItemTwoFloor 7FFFFE00 )
+    Call DisablePlayerInput ( .True )
+    Set *Var[0] 0
+    Call TranslateModel ( ~Model:ItemTwoFloorModel 0 -3` 0 )
+    Call ParentColliderToModel ( ~Collider:ItemTwoFloor ~Model:ItemTwoFloorModel )
+    Loop 25`
+        SubF *Var[0] 3`
+        Call TranslateModel ( ~Model:ItemTwoFloorModel 0 0 *Var[0] )
+        Call ParentColliderToModel ( ~Collider:ItemTwoFloor ~Model:ItemTwoFloorModel )
+        Wait 1`
+    EndLoop
+    Set *CorrectAnswer 1
     Call GotoMap ( "pri_00" 0 )
     Return
     End
@@ -126,6 +174,10 @@
         Add *Var[0] 8`
         Call TranslateModel ( ~Model:ItemOneFloorModel 0 *Var[0] 0 )
         Call ParentColliderToModel ( ~Collider:ItemOneFloor ~Model:ItemOneFloorModel )
+        Call DisablePlayerPhysics ( .True )
+        Call GetPlayerPos ( *Var[1] *Var[2] *Var[3] )
+        Add *Var[2] 8`
+        Call SetPlayerPos ( *Var[1] *Var[2] *Var[3] )
         Wait 1`
     EndLoop
     Call GotoMap ( "hvn_00" 0 )
@@ -153,6 +205,10 @@
         Call SpeakToPlayer ( .Npc:Self 00830404 00830401 00000000 002F0006 )
         Set *TalkedToToad 1
         Call DisablePlayerInput ( .False )
+    Else
+        If *CorrectAnswer == 1
+            Call SetNpcAnimation ( .Npc:Self 00830405 )
+        EndIf
     EndIf
     Return
     End
@@ -207,6 +263,19 @@
     Call SetMusicTrack ( 0 .Song:SunTowerSunny 0 F )
 	Return
 	End
+}
+
+#new:Script $Script_EntryFromPrison
+{
+    Call DisablePlayerInput ( .True )
+    Call DisablePlayerPhysics ( .True )
+    Call SetPlayerPos ( ~Vec3d:Entry2 )
+    Call SetPlayerJumpscale ( *Fixed[2.0] )
+    Call PlayerJump ( 208` 0` 60` 30` )
+    Call DisablePlayerPhysics ( .False )
+    Call DisablePlayerInput ( .False )
+    Return
+    End
 }
 
 #new:Script $Script_EnterMap
