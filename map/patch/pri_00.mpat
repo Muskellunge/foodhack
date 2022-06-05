@@ -340,11 +340,32 @@
 	End
 }
 
+#new:Script $Script_KentCFollowCam
+{
+	Loop
+		Call GetNpcPos ( .Npc:Self *Var[1] *Var[2] *Var[3] )
+		Call SetCamTarget ( .Cam:Default *Var[1] *Var[2] *Var[3] )
+		Wait 1`
+	EndLoop
+	Return
+	End
+}
+
 #new:Script $Script_KentCLeaving
 {
 	Call SpeakToPlayer ( .Npc:Self 00470002 00470001 0 002F000F )
 	Call PlayerMoveTo ( 264` -76` 10` )
 	Wait 1`
+	% Exec $Script_KentCFollowCam *Var[A]
+	% handle camera
+	Call     SetCamSpeed     ( .Cam:Default *Fixed[2.5] )
+    Call     GetPlayerPos  ( *Var4 *Var5 *Var6 )
+    Call     UseSettingsFrom   ( .Cam:Default *Var4 *Var5 *Var6 )
+    Call     SetPanTarget     ( .Cam:Default ~Vec3D:pos )
+    Call     SetCamDistance    ( .Cam:Default  200` )
+    Call     PanToTarget     ( .Cam:Default .Easing:Linear 00000001 )
+    Call     WaitForCam    ( .Cam:Default *Fixed[1.0] )
+	% move
 	Call SetNpcAnimation ( .Npc:Self 00470003 )
 	Call NpcMoveTo ( .Npc:Self 154` -10` 90` )
 	Call SetNpcAnimation ( .Npc:Self 00470001 )
@@ -360,6 +381,7 @@
 	Call PlaySound ( 0174 )
 	Call NpcMoveTo ( .Npc:Self -371` 214` 30` )
 	Call SetNpcPos ( .Npc:Self 0` -1100` 100` )
+	Call ResetCam ( .Cam:Default *Fixed[90.0] )
 	Set *HelpedKent 1
 	Return
 	End

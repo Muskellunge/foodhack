@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="pri_02" author="unnamed" textures="kmr_tex">
 	<Editor>
-		<Camera pos="311.164795,-953.346436,177.968369" pitch="10.400007" yaw="187.879929"/>
-		<Camera pos="258.476288,65536.000000,328.134003"/>
-		<Camera pos="65536.000000,-103.000000,332.000000"/>
+		<Camera pos="266.791534,169.047302,735.359619" pitch="14.999998" yaw="-0.629599"/>
+		<Camera pos="250.000000,65536.000000,332.000000"/>
+		<Camera pos="65536.000000,-68.195717,332.000000"/>
 		<Camera pos="250.000000,-103.000000,65536.000000"/>
 	</Editor>
 	<ModelTree>
@@ -625,7 +625,7 @@
 					</TriangleList>
 				</TriangleBatch>
 			</HitMesh>
-			<Camera type="TYPE_6" flag="false" boomLength="400.000000" boomPitch="16.000000" viewPitch="-10.000000" posA="216,10,357" posB="307,10,356" posC="10,0,10"/>
+			<Camera type="TYPE_6" flag="false" boomLength="400.000000" boomPitch="25.000000" viewPitch="-10.000000" posA="216,10,357" posB="307,10,356" posC="10,0,10"/>
 		</Zone>
 	</Zones>
 	<Markers>

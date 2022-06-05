@@ -151,6 +151,7 @@
 #new:Script $Script_CorrectAnswer
 {
     Call DisablePlayerInput ( .True )
+    Call DisablePlayerPhysics ( .True )
     Set *Var[0] 0
     Call TranslateModel ( ~Model:ItemTwoFloorModel 0 -3` 0 )
     Call ParentColliderToModel ( ~Collider:ItemTwoFloor ~Model:ItemTwoFloorModel )
@@ -160,6 +161,7 @@
         Call ParentColliderToModel ( ~Collider:ItemTwoFloor ~Model:ItemTwoFloorModel )
         Wait 1`
     EndLoop
+    Call DisablePlayerPhysics ( .False )
     Set *CorrectAnswer 1
     Call GotoMap ( "pri_00" 0 )
     Return
@@ -268,11 +270,18 @@
 #new:Script $Script_EntryFromPrison
 {
     Call DisablePlayerInput ( .True )
-    Call DisablePlayerPhysics ( .True )
+    % Call DisablePlayerPhysics ( .True )
+    Call     SetCamSpeed     ( .Cam:Default *Fixed[2.5] )
+    Call     GetPlayerPos  ( *Var4 *Var5 *Var6 )
+    Call     UseSettingsFrom   ( .Cam:Default *Var4 *Var5 *Var6 )
+    % Call     SetPanTarget     ( .Cam:Default ~Vec3D:Pos )
+    % Call     SetCamDistance    ( .Cam:Default  200` )
+    % Call     PanToTarget     ( .Cam:Default .Easing:Linear 00000001 )
+    Call     WaitForCam    ( .Cam:Default *Fixed[1.0] )
     Call SetPlayerPos ( ~Vec3d:Entry2 )
     Call SetPlayerJumpscale ( *Fixed[2.0] )
     Call PlayerJump ( 208` 0` 60` 30` )
-    Call DisablePlayerPhysics ( .False )
+    % Call DisablePlayerPhysics ( .False )
     Call DisablePlayerInput ( .False )
     Return
     End

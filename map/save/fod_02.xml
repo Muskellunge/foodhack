@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Map name="fod_02" author="unnamed" background="kmr_bg" textures="kmr_tex">
 	<Editor>
-		<Camera pos="-432.099030,68.936981,-438.291992" pitch="10.880037" yaw="269.038788"/>
+		<Camera pos="452.085876,137.627014,127.326561" pitch="22.400042" yaw="270.318665"/>
 		<Camera pos="-614.246277,65536.000000,-428.542999"/>
 		<Camera pos="65536.000000,-7.495002,-432.851532"/>
 		<Camera pos="-641.728699,26.160801,65536.000000"/>
@@ -53,7 +53,7 @@
 		</Node>
 	</ZoneTree>
 	<MarkerTree>
-		<Node name="Root" id="9">
+		<Node name="Root" id="A">
 			<Node name="Entrances" id="2">
 				<Node name="Entry0" id="FFFFFFFF"/>
 				<Node name="Entry1" id="0"/>
@@ -66,6 +66,7 @@
 			<Node name="ItemOne" id="6"/>
 			<Node name="ItemTwo" id="7"/>
 			<Node name="PlayerJumpGoal" id="8"/>
+			<Node name="Pos" id="9"/>
 		</Node>
 	</MarkerTree>
 	<LightSets>
@@ -1134,7 +1135,10 @@
 	</Zones>
 	<Markers>
 		<Marker ver="4" type="Root">
-			<MapObject name="Root" id="9"/>
+			<MapObject name="Root" id="A"/>
+		</Marker>
+		<Marker ver="4" type="Entry" pos="355,73,107" yaw="-90.000000">
+			<MapObject name="Pos" id="9"/>
 		</Marker>
 		<Marker ver="4" type="Entry" pos="208,0,60" yaw="0.000000">
 			<MapObject name="PlayerJumpGoal" id="8"/>

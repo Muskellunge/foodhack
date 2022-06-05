@@ -102,8 +102,8 @@
 	Call SetNpcAnimation ( .Npc:Self 00C20003 )
 	Wait 15`
 	Call SetNpcAnimation ( .Npc:Self 00C20006 )
-	Call NpcMoveTo ( .Npc:Self 144` 238` 60` )
-	Call NpcMoveTo ( .Npc:Self 144` 340` 60` )
+	Call NpcMoveTo ( .Npc:Self 173` 238` 60` )
+	Call NpcMoveTo ( .Npc:Self 173` 381` 60` )
 	Call InterpNpcYaw ( .Npc:Self 270` 15` )
 	Call SetNpcAnimation ( .Npc:Self 00C20003 )
 	Call SpeakToPlayer ( .Npc:Self 00C20009 00C20001 0 002F0310 )
